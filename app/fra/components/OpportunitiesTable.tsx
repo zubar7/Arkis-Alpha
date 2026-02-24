@@ -291,7 +291,7 @@ export default function OpportunitiesTable({
                       <div className="flex items-center gap-[12px] max-w-[164px] w-full">
                         <div className="flex-1 h-[4px] bg-[rgba(106,114,130,0.5)] rounded-[8px] overflow-hidden">
                           <div
-                            className="h-full bg-[#F2DD60] rounded-[8px]"
+                            className={`h-full rounded-[8px] ${opp.leveredAPY < 20 ? 'bg-[#F2DD60]' : 'bg-[#3EE0AD]'}`}
                             style={{ width: `${Math.min((opp.leveredAPY / 20) * 100, 100)}%` }}
                           />
                         </div>
