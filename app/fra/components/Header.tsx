@@ -4,10 +4,9 @@ export default function Header() {
       {/* Logo */}
       <div className="w-[108px] h-[16px] overflow-hidden shrink-0">
         <img
-          src="http://localhost:3845/assets/9abbc8964add752e11f9c740560c0924e9617f09.svg"
+          src="/arkis-logo.svg"
           alt="ARKIS"
           className="w-full h-full"
-          style={{ filter: 'brightness(0) saturate(100%) invert(100%)' }}
         />
       </div>
 

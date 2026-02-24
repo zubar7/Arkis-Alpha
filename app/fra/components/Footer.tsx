@@ -5,10 +5,9 @@ export default function Footer() {
         {/* Left side - Logo */}
         <div className="w-[108px] h-[16px] overflow-hidden opacity-50">
           <img
-            src="http://localhost:3845/assets/9abbc8964add752e11f9c740560c0924e9617f09.svg"
+            src="/arkis-logo-gray.svg"
             alt="ARKIS"
             className="w-full h-full"
-            style={{ filter: 'brightness(0) saturate(100%) invert(45%) sepia(8%) saturate(631%) hue-rotate(183deg) brightness(93%) contrast(87%)' }}
           />
         </div>
 
