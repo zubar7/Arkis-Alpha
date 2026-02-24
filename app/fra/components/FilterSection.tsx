@@ -302,7 +302,7 @@ export default function FilterSection({
                           setEstimationWindow(window);
                           setWindowDropdownOpen(false);
                         }}
-                        className={`w-full flex items-center px-[8px] py-[8px] rounded-[4px] transition-colors ${
+                        className={`w-full flex items-center justify-start px-[8px] py-[8px] rounded-[4px] transition-colors ${
                           estimationWindow === window
                             ? 'bg-[rgba(106,114,130,0.24)]'
                             : 'hover:bg-[rgba(106,114,130,0.12)]'
