@@ -178,7 +178,7 @@ export default function OpportunitiesTable({
           </div>
           <div className="flex-1 flex items-center gap-[4px]">
             <p className="text-[12px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[16px]">
-              Unlevered APY
+              Unleveraged APY
             </p>
             <div className="size-[12px] flex items-center justify-center opacity-50">
               <svg viewBox="0 0 16 16" fill="none" className="text-[#6a7282]">
@@ -188,7 +188,7 @@ export default function OpportunitiesTable({
           </div>
           <div className="flex-1 flex items-center gap-[4px]">
             <p className="text-[12px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[16px]">
-              Levered APY
+              Leveraged APY
             </p>
             <div className="size-[12px] flex items-center justify-center opacity-50">
               <svg viewBox="0 0 16 16" fill="none" className="text-[#6a7282]">
@@ -279,14 +279,14 @@ export default function OpportunitiesTable({
                       </p>
                     </div>
 
-                    {/* Unlevered APY */}
+                    {/* Unleveraged APY */}
                     <div className="flex-1 flex items-center">
                       <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px]">
                         {opp.unleveredAPY.toFixed(2)}%
                       </p>
                     </div>
 
-                    {/* Levered APY */}
+                    {/* Leveraged APY */}
                     <div className="flex-1 flex items-center">
                       <div className="flex items-center gap-[12px] max-w-[164px] w-full">
                         <div className="flex-1 h-[4px] bg-[rgba(106,114,130,0.5)] rounded-[8px] overflow-hidden">
@@ -589,7 +589,7 @@ export default function OpportunitiesTable({
                               </div>
                             </div>
                             <div className="flex items-center gap-[8px]">
-                              <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[20px]">Levered APY</p>
+                              <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[20px]">Leveraged APY</p>
                               <p className="text-[14px] font-medium text-[#3ee0ad] tracking-[-0.42px] leading-[20px]">{(opp as any).leveredAPYFooter.toFixed(2)}%</p>
                             </div>
                           </>
@@ -606,7 +606,7 @@ export default function OpportunitiesTable({
                               </div>
                             </div>
                             <div className="flex items-center gap-[8px]">
-                              <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[20px]">Levered APY</p>
+                              <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[20px]">Leveraged APY</p>
                               <p className="text-[14px] font-medium text-[#3ee0ad] tracking-[-0.42px] leading-[20px]">{opp.leveredAPY.toFixed(2)}%</p>
                             </div>
                           </>
@@ -699,14 +699,14 @@ export default function OpportunitiesTable({
                   </p>
                 </div>
 
-                {/* Unlevered APY */}
+                {/* Unleveraged APY */}
                 <div className="flex-1 flex items-center">
                   <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px]">
                     {opp.unleveredAPY.toFixed(2)}%
                   </p>
                 </div>
 
-                {/* Levered APY */}
+                {/* Leveraged APY */}
                 <div className="flex-1 flex items-center">
                   <div className="flex items-center gap-[12px] max-w-[164px] w-full">
                     <div className="flex-1 h-[4px] bg-[rgba(106,114,130,0.5)] rounded-[8px] overflow-hidden">
@@ -1013,7 +1013,7 @@ export default function OpportunitiesTable({
                           </div>
                         </div>
                         <div className="flex items-center gap-[8px]">
-                          <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[20px]">Levered APY</p>
+                          <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[20px]">Leveraged APY</p>
                           <p className="text-[14px] font-medium text-[#3ee0ad] tracking-[-0.42px] leading-[20px]">{(opp as any).leveredAPYFooter.toFixed(2)}%</p>
                         </div>
                       </>
@@ -1039,7 +1039,7 @@ export default function OpportunitiesTable({
                         </div>
                         <div className="flex items-center gap-[8px]">
                           <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[20px]">
-                            Levered APY
+                            Leveraged APY
                           </p>
                           <p className="text-[14px] font-medium text-[#3ee0ad] tracking-[-0.42px] leading-[20px]">
                             {opp.leveredAPY.toFixed(2)}%
