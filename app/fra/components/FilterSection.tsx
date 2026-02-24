@@ -226,20 +226,26 @@ export default function FilterSection({
                     selectAllExchanges();
                   }
                 }}
-                className="bg-[#619ee1] px-[16px] py-[10px] rounded-[6px] text-[12px] font-medium text-white tracking-[-0.42px] leading-[16px] hover:bg-[#5089d0] transition-colors"
+                className={`px-[16px] py-[6px] rounded-[6px] text-[12px] font-medium tracking-[-0.42px] leading-[16px] transition-all ${
+                  selectedExchanges.length === exchanges.length
+                    ? 'bg-[#222c3e] border border-[#3b5a7f] text-[#619ee1]'
+                    : 'bg-[#222c3e] border border-[#3b5a7f] text-[#619ee1] opacity-30'
+                }`}
               >
                 All
               </button>
 
-              {/* Exchange Chips - Always show all, fade when deselected */}
+              {/* Exchange Chips - Always show all, active state when selected */}
               {exchanges.map((exchange) => {
                 const isSelected = selectedExchanges.includes(exchange);
                 return (
                   <button
                     key={exchange}
                     onClick={() => toggleExchange(exchange)}
-                    className={`bg-[#222430] flex gap-[4px] items-center pl-[12px] pr-[16px] py-[10px] rounded-[6px] hover:bg-[#2a2d37] transition-all ${
-                      isSelected ? 'opacity-100' : 'opacity-30'
+                    className={`flex gap-[4px] items-center pl-[12px] pr-[16px] py-[6px] rounded-[6px] transition-all ${
+                      isSelected
+                        ? 'bg-[#222c3e] border border-[#3b5a7f]'
+                        : 'bg-[#222c3e] border border-[#3b5a7f] opacity-30'
                     }`}
                   >
                     <div className="size-[16px] rounded-full overflow-hidden shrink-0">
@@ -249,7 +255,9 @@ export default function FilterSection({
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <p className="text-[12px] font-medium text-white tracking-[-0.42px] leading-[16px]">
+                    <p className={`text-[12px] font-medium tracking-[-0.42px] leading-[16px] ${
+                      isSelected ? 'text-[#619ee1]' : 'text-[#619ee1]'
+                    }`}>
                       {exchangeNames[exchange]}
                     </p>
                   </button>
