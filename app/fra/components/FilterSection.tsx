@@ -125,16 +125,15 @@ export default function FilterSection({
         {/* Row 1: Coin + Exchanges + Estimation Window */}
         <div className="flex items-start justify-between gap-[24px]">
           {/* Left: Coin + Exchange */}
-          <div className="flex gap-[12px] items-start">
+          <div className="flex gap-[24px] items-start">
             {/* Coin Selector */}
-            <div className="relative" ref={coinDropdownRef}>
+            <div className="flex flex-col gap-[8px]">
+              <p className="text-[12px] font-medium text-[#6a7282] tracking-[-0.42px]">Select Coin</p>
+              <div className="relative" ref={coinDropdownRef}>
               <button
                 onClick={() => setCoinDropdownOpen(!coinDropdownOpen)}
-                className="bg-[#222430] flex gap-[8px] items-center pl-[12px] pr-[8px] h-[38px] rounded-[8px] hover:bg-[#2a2d37] transition-colors"
+                className="bg-[#222430] flex gap-[8px] items-center px-[12px] h-[38px] rounded-[8px] hover:bg-[#2a2d37] transition-colors"
               >
-                <p className="text-[12px] font-medium text-white tracking-[-0.42px]">
-                  Coin:
-                </p>
                 <div className="flex gap-[4px] items-center">
                   <div className="size-[16px] rounded-full overflow-hidden">
                     <img
@@ -213,10 +212,13 @@ export default function FilterSection({
                   </div>
                 </div>
               )}
+              </div>
             </div>
 
-            {/* Exchange Selector - Chips */}
-            <div className="flex gap-[4px] items-center flex-wrap">
+            {/* Exchange Selector */}
+            <div className="flex flex-col gap-[8px]">
+              <p className="text-[12px] font-medium text-[#6a7282] tracking-[-0.42px]">Select Exchanges</p>
+              <div className="flex gap-[4px] items-center flex-wrap">
               {/* All button */}
               <button
                 onClick={() => {
@@ -263,11 +265,14 @@ export default function FilterSection({
                   </button>
                 );
               })}
+              </div>
             </div>
           </div>
 
           {/* Right: Estimation Window */}
-          <div className="bg-[#222430] flex items-center p-[2px] rounded-[8px] h-[38px]">
+          <div className="flex flex-col gap-[8px]">
+            <p className="text-[12px] font-medium text-[#6a7282] tracking-[-0.42px]">Estimation Window</p>
+            <div className="bg-[#222430] flex items-center p-[2px] rounded-[8px] h-[38px]">
             {windows.map((window) => (
               <button
                 key={window}
@@ -281,6 +286,7 @@ export default function FilterSection({
                 {window}
               </button>
             ))}
+            </div>
           </div>
         </div>
 
