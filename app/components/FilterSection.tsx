@@ -1,0 +1,576 @@
+'use client';
+
+import { useState, useEffect, useRef } from 'react';
+
+interface FilterSectionProps {
+  selectedCoin: string;
+  setSelectedCoin: (coin: string) => void;
+  selectedExchanges: string[];
+  setSelectedExchanges: (exchanges: string[]) => void;
+  estimationWindow: string;
+  setEstimationWindow: (window: string) => void;
+  futuresLeverage: number;
+  setFuturesLeverage: (leverage: number) => void;
+  arkisBorrowCapital: number;
+  setArkisBorrowCapital: (capital: number) => void;
+  borrowCost: number;
+  setBorrowCost: (cost: number) => void;
+  minTradeAPY: number;
+  setMinTradeAPY: (apy: number) => void;
+}
+
+const coins = ['AVAX', 'BTC', 'ETH', 'HYPE', 'LIT', 'SOL'];
+const exchanges = ['HYPERLIQUID', 'BYBIT', 'BINANCE', 'BITGET', 'OKX', 'HUOBI', 'LIGHTER'];
+const windows = ['1D', '3D', '1W', '2W', '1M', '3M'];
+const leveragePresets = [2, 3, 5];
+const capitalPresets = [2, 3, 5];
+
+// Coin icon URLs
+const coinIcons: Record<string, string> = {
+  'AVAX': '/icons/tokens/avax.png',
+  'BTC': 'http://localhost:3845/assets/804e84587d1c75d361f9e3d98a730f56e0c3ba77.svg',
+  'ETH': '/icons/tokens/eth.png',
+  'HYPE': 'http://localhost:3845/assets/9a0db04e258f8f5bf7a9e8fd00673d6d95db4d2e.svg',
+  'LIT': '/icons/tokens/lit.png',
+  'SOL': 'http://localhost:3845/assets/77539620126dccf3a5cc4abdd8e93dd8a421b2c8.svg',
+};
+
+export default function FilterSection({
+  selectedCoin,
+  setSelectedCoin,
+  selectedExchanges,
+  setSelectedExchanges,
+  estimationWindow,
+  setEstimationWindow,
+  futuresLeverage,
+  setFuturesLeverage,
+  arkisBorrowCapital,
+  setArkisBorrowCapital,
+  borrowCost,
+  setBorrowCost,
+  minTradeAPY,
+  setMinTradeAPY,
+}: FilterSectionProps) {
+  const [inWallet, setInWallet] = useState(false);
+  const [coinDropdownOpen, setCoinDropdownOpen] = useState(false);
+  const [coinSearch, setCoinSearch] = useState('');
+  const coinDropdownRef = useRef<HTMLDivElement>(null);
+
+  const toggleExchange = (exchange: string) => {
+    if (selectedExchanges.includes(exchange)) {
+      setSelectedExchanges(selectedExchanges.filter((e) => e !== exchange));
+    } else {
+      setSelectedExchanges([...selectedExchanges, exchange]);
+    }
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (coinDropdownRef.current && !coinDropdownRef.current.contains(event.target as Node)) {
+        setCoinDropdownOpen(false);
+        setCoinSearch('');
+      }
+    };
+
+    if (coinDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [coinDropdownOpen]);
+
+  return (
+    <div className="rounded-[10px] border border-[rgba(255,255,255,0.03)] bg-[#181923] p-[25px]">
+      <div className="space-y-[24px]">
+        {/* Header */}
+        <div className="pb-[16px]">
+          <h2 className="text-[20px] font-semibold text-white tracking-[-0.42px] leading-[28px]">
+            Position Settings
+          </h2>
+        </div>
+
+        {/* Row 1: Coin + Exchanges + Estimation Window */}
+        <div className="flex items-start justify-between gap-[24px]">
+          {/* Left: Coin + Exchange */}
+          <div className="flex gap-[10px] items-start">
+            {/* Coin Selector */}
+            <div className="relative" ref={coinDropdownRef}>
+              <button
+                onClick={() => setCoinDropdownOpen(!coinDropdownOpen)}
+                className="bg-[#222430] flex gap-[8px] items-center pl-[12px] pr-[8px] py-[10px] rounded-[8px] hover:bg-[#2a2d37] transition-colors"
+              >
+                <p className="text-[12px] font-medium text-white tracking-[-0.42px]">
+                  Coin:
+                </p>
+                <div className="flex gap-[4px] items-center">
+                  <div className="size-[16px] rounded-full overflow-hidden">
+                    <img
+                      src={coinIcons[selectedCoin]}
+                      alt={selectedCoin}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <p className="text-[12px] font-medium text-white tracking-[-0.42px]">
+                    {selectedCoin}
+                  </p>
+                </div>
+                <div className="size-[16px] opacity-50">
+                  <svg viewBox="0 0 16 16" fill="currentColor" className="text-[#6a7282]">
+                    <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+              </button>
+
+              {/* Dropdown */}
+              {coinDropdownOpen && (
+                <div className="absolute top-full mt-[8px] bg-[#222430] border border-[rgba(255,255,255,0.03)] rounded-[8px] shadow-[0px_4px_16px_0px_rgba(0,0,0,0.08)] min-w-[200px] w-[255px] max-h-[472px] overflow-hidden z-50">
+                  {/* Search Input - integrated as top part */}
+                  <div className="flex gap-[8px] items-center px-[12px] h-[40px] border-b border-[rgba(255,255,255,0.03)]">
+                    <div className="size-[16px] opacity-50">
+                      <svg viewBox="0 0 16 16" fill="none" className="text-[#6a7282]">
+                        <path d="M7 12a5 5 0 100-10 5 5 0 000 10zM12 12l2 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Search asset"
+                      value={coinSearch}
+                      onChange={(e) => setCoinSearch(e.target.value)}
+                      className="flex-1 bg-transparent text-[12px] font-medium text-[#6a7282] tracking-[-0.36px] leading-[16px] outline-none placeholder:text-[#6a7282]"
+                    />
+                  </div>
+
+                  {/* Coin List */}
+                  <div className="p-[4px]">
+                    {coins
+                      .filter(coin => coin.toLowerCase().includes(coinSearch.toLowerCase()))
+                      .map((coin) => (
+                        <button
+                          key={coin}
+                          onClick={() => {
+                            setSelectedCoin(coin);
+                            setCoinDropdownOpen(false);
+                            setCoinSearch('');
+                          }}
+                          className={`w-full flex gap-[8px] items-center px-[8px] py-[8px] rounded-[4px] transition-colors ${
+                            selectedCoin === coin
+                              ? 'bg-[rgba(106,114,130,0.24)]'
+                              : 'hover:bg-[rgba(106,114,130,0.12)]'
+                          }`}
+                        >
+                          <div className="size-[16px] rounded-full overflow-hidden">
+                            <img
+                              src={coinIcons[coin]}
+                              alt={coin}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <p className="flex-1 text-left text-[12px] font-medium text-white tracking-[-0.36px] leading-[16px] overflow-hidden text-ellipsis whitespace-nowrap">
+                            {coin}
+                          </p>
+                          {selectedCoin === coin && (
+                            <div className="size-[16px]">
+                              <svg viewBox="0 0 16 16" fill="none" className="text-white">
+                                <path d="M13 4L6 11L3 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                              </svg>
+                            </div>
+                          )}
+                        </button>
+                      ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Exchange Selector */}
+            <div className="bg-[#222430] flex gap-[8px] items-center px-[12px] py-[6px] rounded-[8px]">
+              <p className="text-[12px] font-medium text-white tracking-[-0.42px]">
+                Exchange:
+              </p>
+              <div className="flex gap-[4px] items-center">
+                {selectedExchanges.slice(0, 2).map((exchange) => (
+                  <div
+                    key={exchange}
+                    className="bg-[#181923] flex gap-[4px] items-center px-[6px] py-[4px] rounded-[6px]"
+                  >
+                    <div className="size-[16px] rounded-full bg-yellow-500" />
+                    <p className="text-[12px] font-medium text-white tracking-[-0.42px]">
+                      {exchange}
+                    </p>
+                    <button
+                      onClick={() => toggleExchange(exchange)}
+                      className="size-[16px] opacity-50 hover:opacity-100 transition-opacity"
+                    >
+                      <svg viewBox="0 0 16 16" fill="none" className="text-[#6a7282]">
+                        <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                      </svg>
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <div className="size-[16px] opacity-50 pl-[4px]">
+                <svg viewBox="0 0 16 16" fill="currentColor" className="text-[#6a7282]">
+                  <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Estimation Window */}
+          <div className="bg-[#222430] flex items-center p-[2px] rounded-[8px]">
+            {windows.map((window) => (
+              <button
+                key={window}
+                onClick={() => setEstimationWindow(window)}
+                className={`min-w-[48px] max-w-[108px] px-[12px] py-[8px] rounded-[6px] text-[12px] font-medium text-white tracking-[-0.36px] transition-colors ${
+                  estimationWindow === window
+                    ? 'bg-[#181923]'
+                    : 'hover:bg-[#181923]/50'
+                }`}
+              >
+                {window}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Sliders */}
+        <div className="flex gap-[24px]">
+          {/* Position Sizing Section */}
+          <div className="flex-1 flex flex-col gap-[24px]">
+            <h3 className="text-[16px] font-semibold text-white tracking-[-0.42px] leading-[24px]">Position Sizing</h3>
+            <div className="flex flex-col gap-[24px]">
+              {/* Futures Leverage */}
+              <div className="flex flex-col gap-[12px]">
+                <div className="flex items-center justify-between">
+                  <div className="relative group inline-block w-fit">
+                    <span className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] underline decoration-dotted cursor-help leading-[20px]">
+                      Futures Leverage
+                    </span>
+                    <div className="absolute left-0 top-full mt-2 px-3 py-2 bg-[#222430] border border-[#2a2d37] rounded-[8px] text-[11px] text-white whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10 shadow-lg">
+                      Multiplier applied to your futures positions
+                    </div>
+                  </div>
+              <div className="flex items-center gap-[4px]">
+                <button
+                  onClick={() => setFuturesLeverage(2)}
+                  className="bg-[#222c3e] border border-[#3b5a7f] text-[#619ee1] px-[6px] py-[4px] rounded-[6px] text-[12px] font-medium tracking-[-0.36px] leading-[16px] hover:bg-[#2a3548] transition-colors"
+                >
+                  x2
+                </button>
+                <button
+                  onClick={() => setFuturesLeverage(3)}
+                  className="bg-[#222c3e] border border-[#3b5a7f] text-[#619ee1] px-[6px] py-[4px] rounded-[6px] text-[12px] font-medium tracking-[-0.36px] leading-[16px] hover:bg-[#2a3548] transition-colors"
+                >
+                  x3
+                </button>
+                <button
+                  onClick={() => setFuturesLeverage(5)}
+                  className="bg-[#222c3e] border border-[#3b5a7f] text-[#619ee1] px-[6px] py-[4px] rounded-[6px] text-[12px] font-medium tracking-[-0.36px] leading-[16px] hover:bg-[#2a3548] transition-colors"
+                >
+                  Max x5
+                </button>
+              </div>
+                </div>
+            <div className="flex items-center gap-[10px]">
+              <div className="flex-1 h-[12px] relative">
+                {/* Segmented background */}
+                <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[10px] flex gap-[4px]">
+                  <div className="flex-1 bg-[#2a2d37] rounded-full" />
+                  <div className="flex-1 bg-[#2a2d37] rounded-full" />
+                  <div className="flex-1 bg-[#2a2d37] rounded-full" />
+                  <div className="flex-1 bg-[#2a2d37] rounded-full" />
+                </div>
+                {/* Blue fill overlay */}
+                <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[10px] rounded-[30px] overflow-hidden pointer-events-none">
+                  <div
+                    className="absolute top-0 bottom-0 bg-[#619ee1] rounded-[30px] transition-all duration-200"
+                    style={{
+                      left: '0',
+                      width: `${((futuresLeverage - 1) / (5 - 1)) * 100}%`,
+                    }}
+                  />
+                </div>
+                <div
+                  className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-[12px] h-[12px] bg-white rounded-full cursor-pointer shadow-sm"
+                  style={{
+                    left: `${((futuresLeverage - 1) / (5 - 1)) * 100}%`,
+                  }}
+                />
+                <input
+                  type="range"
+                  min="1"
+                  max="5"
+                  step="0.1"
+                  value={futuresLeverage}
+                  onChange={(e) => setFuturesLeverage(Number(e.target.value))}
+                  className="absolute inset-0 w-full opacity-0 cursor-pointer"
+                />
+              </div>
+              <div className="relative min-w-[56px]">
+                <input
+                  type="number"
+                  min="1"
+                  max="5"
+                  step="0.1"
+                  value={futuresLeverage.toFixed(1)}
+                  onChange={(e) => {
+                    const val = Number(e.target.value);
+                    if (!isNaN(val) && val >= 1 && val <= 5) {
+                      setFuturesLeverage(val);
+                    }
+                  }}
+                  onBlur={(e) => {
+                    const val = Number(e.target.value);
+                    if (isNaN(val) || val < 1) setFuturesLeverage(1);
+                    else if (val > 5) setFuturesLeverage(5);
+                  }}
+                  className="w-full bg-[#222430] text-white text-[12px] font-medium rounded-[6px] px-[12px] h-[32px] text-right tracking-[-0.36px] leading-[16px] outline-none focus:border focus:border-[rgba(106,114,130,0.5)] transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  placeholder="x"
+                />
+              </div>
+            </div>
+          </div>
+
+              {/* Arkis Borrow Capital */}
+              <div className="flex flex-col gap-[8px]">
+                <div className="flex items-center justify-between">
+                  <div className="relative group inline-block w-fit">
+                    <span className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] underline decoration-dotted cursor-help leading-[20px]">
+                      Arkis Borrow Capital
+                    </span>
+                    <div className="absolute left-0 top-full mt-2 px-3 py-2 bg-[#222430] border border-[#2a2d37] rounded-[8px] text-[11px] text-white whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10 shadow-lg">
+                      Amount of capital you can borrow from Arkis
+                    </div>
+                  </div>
+              <div className="flex items-center gap-[4px]">
+                <button
+                  onClick={() => setArkisBorrowCapital(2)}
+                  className="bg-[#222c3e] border border-[#3b5a7f] text-[#619ee1] px-[6px] py-[4px] rounded-[6px] text-[12px] font-medium tracking-[-0.36px] leading-[16px] hover:bg-[#2a3548] transition-colors"
+                >
+                  x2
+                </button>
+                <button
+                  onClick={() => setArkisBorrowCapital(3)}
+                  className="bg-[#222c3e] border border-[#3b5a7f] text-[#619ee1] px-[6px] py-[4px] rounded-[6px] text-[12px] font-medium tracking-[-0.36px] leading-[16px] hover:bg-[#2a3548] transition-colors"
+                >
+                  x3
+                </button>
+                <button
+                  onClick={() => setArkisBorrowCapital(5)}
+                  className="bg-[#222c3e] border border-[#3b5a7f] text-[#619ee1] px-[6px] py-[4px] rounded-[6px] text-[12px] font-medium tracking-[-0.36px] leading-[16px] hover:bg-[#2a3548] transition-colors"
+                >
+                  Max x5
+                </button>
+              </div>
+                </div>
+            <div className="flex items-center gap-[10px]">
+              <div className="flex-1 h-[12px] relative">
+                {/* Segmented background */}
+                <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[10px] flex gap-[4px]">
+                  <div className="flex-1 bg-[#2a2d37] rounded-full" />
+                  <div className="flex-1 bg-[#2a2d37] rounded-full" />
+                  <div className="flex-1 bg-[#2a2d37] rounded-full" />
+                  <div className="flex-1 bg-[#2a2d37] rounded-full" />
+                  <div className="flex-1 bg-[#2a2d37] rounded-full" />
+                </div>
+                {/* Blue fill overlay */}
+                <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[10px] rounded-[30px] overflow-hidden pointer-events-none">
+                  <div
+                    className="absolute top-0 bottom-0 bg-[#619ee1] rounded-[30px] transition-all duration-200"
+                    style={{
+                      left: '0',
+                      width: `${(arkisBorrowCapital / 5) * 100}%`,
+                    }}
+                  />
+                </div>
+                <div
+                  className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-[12px] h-[12px] bg-white rounded-full cursor-pointer shadow-sm"
+                  style={{
+                    left: `${(arkisBorrowCapital / 5) * 100}%`,
+                  }}
+                />
+                <input
+                  type="range"
+                  min="0"
+                  max="5"
+                  step="0.1"
+                  value={arkisBorrowCapital}
+                  onChange={(e) => setArkisBorrowCapital(Number(e.target.value))}
+                  className="absolute inset-0 w-full opacity-0 cursor-pointer"
+                />
+              </div>
+              <div className="relative min-w-[56px]">
+                <input
+                  type="number"
+                  min="0"
+                  max="5"
+                  step="0.1"
+                  value={arkisBorrowCapital.toFixed(1)}
+                  onChange={(e) => {
+                    const val = Number(e.target.value);
+                    if (!isNaN(val) && val >= 0 && val <= 5) {
+                      setArkisBorrowCapital(val);
+                    }
+                  }}
+                  onBlur={(e) => {
+                    const val = Number(e.target.value);
+                    if (isNaN(val) || val < 0) setArkisBorrowCapital(0);
+                    else if (val > 5) setArkisBorrowCapital(5);
+                  }}
+                  className="w-full bg-[#222430] text-white text-[12px] font-medium rounded-[6px] px-[12px] h-[32px] text-right tracking-[-0.36px] leading-[16px] outline-none focus:border focus:border-[rgba(106,114,130,0.5)] transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  placeholder="x"
+                />
+              </div>
+            </div>
+          </div>
+            </div>
+          </div>
+
+          {/* Trade Parameters Section */}
+          <div className="flex-1 flex flex-col gap-[24px]">
+            <h3 className="text-[16px] font-semibold text-white tracking-[-0.42px] leading-[24px]">Trade Parameters</h3>
+            <div className="flex flex-col gap-[24px]">
+              {/* Borrow Cost (APY) */}
+              <div className="flex flex-col gap-[12px]">
+                <div className="flex items-center justify-between min-h-[24px]">
+                  <div className="relative group inline-block w-fit">
+                    <span className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] underline decoration-dotted cursor-help leading-[20px]">
+                      Borrow Cost (APY)
+                    </span>
+                    <div className="absolute left-0 top-full mt-2 px-3 py-2 bg-[#222430] border border-[#2a2d37] rounded-[8px] text-[11px] text-white whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10 shadow-lg">
+                      Annual percentage rate for borrowed capital
+                    </div>
+                  </div>
+            </div>
+            <div className="flex items-center gap-[10px]">
+              <div className="flex-1 h-[12px] relative">
+                {/* Track background */}
+                <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[10px] bg-[#2a2d37] rounded-[30px]" />
+                {/* Blue fill overlay */}
+                <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[10px] rounded-[30px] overflow-hidden pointer-events-none">
+                  <div
+                    className="absolute top-0 bottom-0 bg-[#619ee1] rounded-[30px] transition-all duration-200"
+                    style={{
+                      left: '0',
+                      width: `${((borrowCost - 0.05) / (0.15 - 0.05)) * 100}%`,
+                    }}
+                  />
+                </div>
+                <div
+                  className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-[12px] h-[12px] bg-white rounded-full cursor-pointer shadow-sm"
+                  style={{
+                    left: `${((borrowCost - 0.05) / (0.15 - 0.05)) * 100}%`,
+                  }}
+                />
+                <input
+                  type="range"
+                  min="0.05"
+                  max="0.15"
+                  step="0.01"
+                  value={borrowCost}
+                  onChange={(e) => setBorrowCost(Number(e.target.value))}
+                  className="absolute inset-0 w-full opacity-0 cursor-pointer"
+                />
+              </div>
+              <div className="relative min-w-[56px]">
+                <input
+                  type="number"
+                  min="5"
+                  max="15"
+                  step="0.1"
+                  value={(borrowCost * 100).toFixed(1)}
+                  onChange={(e) => {
+                    const val = Number(e.target.value) / 100;
+                    if (!isNaN(val) && val >= 0.05 && val <= 0.15) {
+                      setBorrowCost(val);
+                    }
+                  }}
+                  onBlur={(e) => {
+                    const val = Number(e.target.value) / 100;
+                    if (isNaN(val) || val < 0.05) setBorrowCost(0.05);
+                    else if (val > 0.15) setBorrowCost(0.15);
+                  }}
+                  className="w-full bg-[#222430] text-white text-[12px] font-medium rounded-[6px] px-[12px] h-[32px] text-right tracking-[-0.36px] leading-[16px] outline-none focus:border focus:border-[rgba(106,114,130,0.5)] transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  placeholder="%"
+                />
+              </div>
+            </div>
+          </div>
+
+              {/* Min Trade APY */}
+              <div className="flex flex-col gap-[12px]">
+                <div className="flex items-center justify-between min-h-[24px]">
+                  <div className="relative group inline-block w-fit">
+                    <span className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] underline decoration-dotted cursor-help leading-[20px]">
+                      Min Trade APY
+                    </span>
+                    <div className="absolute left-0 top-full mt-2 px-3 py-2 bg-[#222430] border border-[#2a2d37] rounded-[8px] text-[11px] text-white whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10 shadow-lg">
+                      Minimum acceptable annual return for trades
+                    </div>
+                  </div>
+            </div>
+            <div className="flex items-center gap-[10px]">
+              <div className="flex-1 h-[12px] relative">
+                {/* Track background */}
+                <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[10px] bg-[#2a2d37] rounded-[30px]" />
+                {/* Blue fill overlay */}
+                <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[10px] rounded-[30px] overflow-hidden pointer-events-none">
+                  <div
+                    className="absolute top-0 bottom-0 bg-[#619ee1] rounded-[30px] transition-all duration-200"
+                    style={{
+                      left: '0',
+                      width: `${((minTradeAPY - 0.07) / (0.3 - 0.07)) * 100}%`,
+                    }}
+                  />
+                </div>
+                <div
+                  className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-[12px] h-[12px] bg-white rounded-full cursor-pointer shadow-sm"
+                  style={{
+                    left: `${((minTradeAPY - 0.07) / (0.3 - 0.07)) * 100}%`,
+                  }}
+                />
+                <input
+                  type="range"
+                  min="0.07"
+                  max="0.3"
+                  step="0.01"
+                  value={minTradeAPY}
+                  onChange={(e) => setMinTradeAPY(Number(e.target.value))}
+                  className="absolute inset-0 w-full opacity-0 cursor-pointer"
+                />
+              </div>
+              <div className="relative min-w-[56px]">
+                <input
+                  type="number"
+                  min="7"
+                  max="30"
+                  step="1"
+                  value={(minTradeAPY * 100).toFixed(0)}
+                  onChange={(e) => {
+                    const val = Number(e.target.value) / 100;
+                    if (!isNaN(val) && val >= 0.07 && val <= 0.3) {
+                      setMinTradeAPY(val);
+                    }
+                  }}
+                  onBlur={(e) => {
+                    const val = Number(e.target.value) / 100;
+                    if (isNaN(val) || val < 0.07) setMinTradeAPY(0.07);
+                    else if (val > 0.3) setMinTradeAPY(0.3);
+                  }}
+                  className="w-full bg-[#222430] text-white text-[12px] font-medium rounded-[6px] px-[12px] h-[32px] text-right tracking-[-0.36px] leading-[16px] outline-none focus:border focus:border-[rgba(106,114,130,0.5)] transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  placeholder="%"
+                />
+              </div>
+            </div>
+          </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
