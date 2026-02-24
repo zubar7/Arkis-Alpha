@@ -282,7 +282,7 @@ export default function FilterSection({
                 className="bg-[#222430] flex items-center px-[12px] py-[10px] rounded-[8px] gap-[8px] min-w-[124px] hover:bg-[#2a2d37] transition-colors"
               >
                 <p className="flex-1 text-left text-[12px] font-medium text-white tracking-[-0.42px]">
-                  {windowLabels[estimationWindow]}
+                  {windowLabels[estimationWindow] || estimationWindow}
                 </p>
                 <div className="size-[16px] opacity-50">
                   <svg viewBox="0 0 16 16" fill="currentColor" className="text-[#6a7282]">
@@ -309,7 +309,7 @@ export default function FilterSection({
                         }`}
                       >
                         <p className="flex-1 text-left text-[12px] font-medium text-white tracking-[-0.36px] leading-[16px]">
-                          {windowLabels[window]}
+                          {windowLabels[window] || window}
                         </p>
                         {estimationWindow === window && (
                           <div className="size-[16px]">
