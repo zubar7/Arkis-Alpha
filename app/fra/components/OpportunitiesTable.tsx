@@ -249,16 +249,16 @@ export default function OpportunitiesTable({
                     <div className="flex-1 flex items-center gap-[8px]">
                       <div className="size-[24px] rounded-full overflow-hidden">
                         <img
-                          src={exchangeIcons[opp.long.exchange]}
-                          alt={opp.long.exchange}
+                          src={exchangeIcons[(opp as any).long.exchange]}
+                          alt={(opp as any).long.exchange}
                           className="w-full h-full object-cover"
                         />
                       </div>
                       <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px]">
-                        {opp.long.pair}
+                        {(opp as any).long.pair}
                       </p>
                       <p className="text-[14px] font-medium text-[rgba(255,255,255,0.2)] tracking-[-0.42px] leading-[20px]">
-                        {opp.long.exchange.charAt(0) + opp.long.exchange.slice(1).toLowerCase()}
+                        {(opp as any).long.exchange.charAt(0) + (opp as any).long.exchange.slice(1).toLowerCase()}
                       </p>
                     </div>
 
