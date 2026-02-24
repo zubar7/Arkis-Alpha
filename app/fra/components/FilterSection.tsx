@@ -122,12 +122,12 @@ export default function FilterSection({
           </h2>
         </div>
 
-        {/* Row 1: Coin + Exchanges */}
-        <div className="flex items-start justify-between gap-[24px]">
+        {/* Row 1: All Controls in One Row */}
+        <div className="flex items-start gap-[16px]">
           {/* Coin Selector */}
           <div className="flex flex-col gap-[8px]">
-            <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px]">Select Coin</p>
-              <div className="relative" ref={coinDropdownRef}>
+            <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px]">Select Coin:</p>
+            <div className="relative" ref={coinDropdownRef}>
               <button
                 onClick={() => setCoinDropdownOpen(!coinDropdownOpen)}
                 className="bg-[#222430] flex gap-[8px] items-center px-[12px] h-[38px] rounded-[8px] hover:bg-[#2a2d37] transition-colors"
@@ -214,9 +214,9 @@ export default function FilterSection({
           </div>
 
           {/* Exchange Selector */}
-          <div className="flex flex-col gap-[8px]">
-            <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px]">Select Exchanges</p>
-              <div className="flex gap-[4px] items-center flex-wrap">
+          <div className="flex flex-col gap-[8px] flex-1">
+            <p className="text-[14px] font-semibold text-white tracking-[-0.42px] leading-[20px]">Select Exchange:</p>
+              <div className="flex gap-[4px] items-start flex-wrap">
               {/* All button */}
               <button
                 onClick={() => {
@@ -226,26 +226,22 @@ export default function FilterSection({
                     selectAllExchanges();
                   }
                 }}
-                className={`px-[16px] py-[6px] rounded-[6px] text-[12px] font-medium tracking-[-0.42px] leading-[16px] transition-all ${
-                  selectedExchanges.length === exchanges.length
-                    ? 'bg-[#222c3e] border border-[#3b5a7f] text-[#619ee1]'
-                    : 'bg-[#222c3e] border border-[#3b5a7f] text-[#619ee1] opacity-30'
-                }`}
+                className="bg-[#222430] px-[16px] py-[10px] rounded-[6px] text-[12px] font-medium text-white tracking-[-0.42px] leading-[16px] transition-all hover:bg-[#2a2d37]"
               >
                 All
               </button>
 
-              {/* Exchange Chips - Always show all, active state when selected */}
+              {/* Exchange Chips - Always show all, blue border when selected */}
               {exchanges.map((exchange) => {
                 const isSelected = selectedExchanges.includes(exchange);
                 return (
                   <button
                     key={exchange}
                     onClick={() => toggleExchange(exchange)}
-                    className={`flex gap-[4px] items-center pl-[12px] pr-[16px] py-[6px] rounded-[6px] transition-all ${
+                    className={`flex gap-[4px] items-center pl-[12px] pr-[16px] py-[10px] rounded-[6px] transition-all ${
                       isSelected
                         ? 'bg-[#222c3e] border border-[#3b5a7f]'
-                        : 'bg-[#222c3e] border border-[#3b5a7f] opacity-30'
+                        : 'bg-[#222430]'
                     }`}
                   >
                     <div className="size-[16px] rounded-full overflow-hidden shrink-0">
@@ -255,9 +251,7 @@ export default function FilterSection({
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <p className={`text-[12px] font-medium tracking-[-0.42px] leading-[16px] ${
-                      isSelected ? 'text-[#619ee1]' : 'text-[#619ee1]'
-                    }`}>
+                    <p className="text-[12px] font-medium text-white tracking-[-0.42px] leading-[16px]">
                       {exchangeNames[exchange]}
                     </p>
                   </button>
@@ -265,25 +259,19 @@ export default function FilterSection({
               })}
             </div>
           </div>
-        </div>
 
-        {/* Row 2: Estimation Window */}
-        <div className="flex flex-col gap-[8px]">
-          <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px]">Estimation Window</p>
-            <div className="bg-[#222430] flex items-center p-[2px] rounded-[8px] h-[38px]">
-            {windows.map((window) => (
-              <button
-                key={window}
-                onClick={() => setEstimationWindow(window)}
-                className={`min-w-[48px] max-w-[108px] px-[12px] h-[34px] rounded-[6px] text-[12px] font-medium text-white tracking-[-0.36px] transition-colors flex items-center justify-center ${
-                  estimationWindow === window
-                    ? 'bg-[#181923]'
-                    : 'hover:bg-[#181923]/50'
-                }`}
-              >
-                {window}
-              </button>
-            ))}
+          {/* Estimation Window */}
+          <div className="flex flex-col gap-[8px]">
+            <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px]">Estimation Window:</p>
+            <div className="bg-[#222430] flex items-center px-[12px] py-[10px] rounded-[8px] gap-[8px] min-w-[124px] cursor-pointer hover:bg-[#2a2d37] transition-colors">
+              <p className="flex-1 text-[12px] font-medium text-white tracking-[-0.42px]">
+                {estimationWindow}
+              </p>
+              <div className="size-[16px] opacity-50">
+                <svg viewBox="0 0 16 16" fill="currentColor" className="text-[#6a7282]">
+                  <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
             </div>
           </div>
         </div>
