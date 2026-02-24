@@ -128,7 +128,7 @@ export default function FilterSection({
           <div className="flex gap-[24px] items-start">
             {/* Coin Selector */}
             <div className="flex flex-col gap-[8px]">
-              <p className="text-[12px] font-medium text-[#6a7282] tracking-[-0.42px]">Select Coin</p>
+              <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px]">Select Coin</p>
               <div className="relative" ref={coinDropdownRef}>
               <button
                 onClick={() => setCoinDropdownOpen(!coinDropdownOpen)}
@@ -217,7 +217,7 @@ export default function FilterSection({
 
             {/* Exchange Selector */}
             <div className="flex flex-col gap-[8px]">
-              <p className="text-[12px] font-medium text-[#6a7282] tracking-[-0.42px]">Select Exchanges</p>
+              <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px]">Select Exchanges</p>
               <div className="flex gap-[4px] items-center flex-wrap">
               {/* All button */}
               <button
@@ -271,7 +271,7 @@ export default function FilterSection({
 
           {/* Right: Estimation Window */}
           <div className="flex flex-col gap-[8px]">
-            <p className="text-[12px] font-medium text-[#6a7282] tracking-[-0.42px]">Estimation Window</p>
+            <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px]">Estimation Window</p>
             <div className="bg-[#222430] flex items-center p-[2px] rounded-[8px] h-[38px]">
             {windows.map((window) => (
               <button
