@@ -606,7 +606,6 @@ export default function FilterSection({
               </div>
             </div>
           </div>
-          </div>
         </div>
       </div>
     </div>
