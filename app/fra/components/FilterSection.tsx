@@ -28,11 +28,33 @@ const capitalPresets = [2, 3, 5];
 // Coin icon URLs
 const coinIcons: Record<string, string> = {
   'AVAX': '/icons/tokens/avax.png',
-  'BTC': 'http://localhost:3845/assets/804e84587d1c75d361f9e3d98a730f56e0c3ba77.svg',
+  'BTC': '/icons/tokens/btc.png',
   'ETH': '/icons/tokens/eth.png',
-  'HYPE': 'http://localhost:3845/assets/9a0db04e258f8f5bf7a9e8fd00673d6d95db4d2e.svg',
+  'HYPE': '/icons/tokens/hype.png',
   'LIT': '/icons/tokens/lit.png',
-  'SOL': 'http://localhost:3845/assets/77539620126dccf3a5cc4abdd8e93dd8a421b2c8.svg',
+  'SOL': '/icons/tokens/sol.png',
+};
+
+// Exchange icon URLs
+const exchangeIcons: Record<string, string> = {
+  'HYPERLIQUID': '/icons/exchanges/hyperliquid.png',
+  'BYBIT': '/icons/exchanges/bybit.png',
+  'BINANCE': '/icons/exchanges/binance.png',
+  'BITGET': '/icons/exchanges/bitget.png',
+  'OKX': '/icons/exchanges/okx.png',
+  'HUOBI': '/icons/exchanges/huobi.png',
+  'LIGHTER': '/icons/exchanges/lighter.png',
+};
+
+// Exchange display names (title case)
+const exchangeNames: Record<string, string> = {
+  'HYPERLIQUID': 'Hyperliquid',
+  'BYBIT': 'Bybit',
+  'BINANCE': 'Binance',
+  'BITGET': 'Bitget',
+  'OKX': 'OKX',
+  'HUOBI': 'Huobi',
+  'LIGHTER': 'Lighter',
 };
 
 export default function FilterSection({
@@ -54,7 +76,9 @@ export default function FilterSection({
   const [inWallet, setInWallet] = useState(false);
   const [coinDropdownOpen, setCoinDropdownOpen] = useState(false);
   const [coinSearch, setCoinSearch] = useState('');
+  const [exchangeDropdownOpen, setExchangeDropdownOpen] = useState(false);
   const coinDropdownRef = useRef<HTMLDivElement>(null);
+  const exchangeDropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleExchange = (exchange: string) => {
     if (selectedExchanges.includes(exchange)) {
@@ -64,23 +88,34 @@ export default function FilterSection({
     }
   };
 
-  // Close dropdown when clicking outside
+  const selectAllExchanges = () => {
+    setSelectedExchanges(exchanges);
+  };
+
+  const clearAllExchanges = () => {
+    setSelectedExchanges([]);
+  };
+
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (coinDropdownRef.current && !coinDropdownRef.current.contains(event.target as Node)) {
         setCoinDropdownOpen(false);
         setCoinSearch('');
       }
+      if (exchangeDropdownRef.current && !exchangeDropdownRef.current.contains(event.target as Node)) {
+        setExchangeDropdownOpen(false);
+      }
     };
 
-    if (coinDropdownOpen) {
+    if (coinDropdownOpen || exchangeDropdownOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [coinDropdownOpen]);
+  }, [coinDropdownOpen, exchangeDropdownOpen]);
 
   return (
     <div className="rounded-[10px] border border-[rgba(255,255,255,0.03)] bg-[#181923] p-[25px]">
@@ -95,12 +130,12 @@ export default function FilterSection({
         {/* Row 1: Coin + Exchanges + Estimation Window */}
         <div className="flex items-start justify-between gap-[24px]">
           {/* Left: Coin + Exchange */}
-          <div className="flex gap-[10px] items-start">
+          <div className="flex gap-[12px] items-start">
             {/* Coin Selector */}
             <div className="relative" ref={coinDropdownRef}>
               <button
                 onClick={() => setCoinDropdownOpen(!coinDropdownOpen)}
-                className="bg-[#222430] flex gap-[8px] items-center pl-[12px] pr-[8px] py-[10px] rounded-[8px] hover:bg-[#2a2d37] transition-colors"
+                className="bg-[#222430] flex gap-[8px] items-center pl-[12px] pr-[8px] h-[38px] rounded-[8px] hover:bg-[#2a2d37] transition-colors"
               >
                 <p className="text-[12px] font-medium text-white tracking-[-0.42px]">
                   Coin:
@@ -185,47 +220,148 @@ export default function FilterSection({
               )}
             </div>
 
-            {/* Exchange Selector */}
-            <div className="bg-[#222430] flex gap-[8px] items-center px-[12px] py-[6px] rounded-[8px]">
-              <p className="text-[12px] font-medium text-white tracking-[-0.42px]">
-                Exchange:
-              </p>
-              <div className="flex gap-[4px] items-center">
-                {selectedExchanges.slice(0, 2).map((exchange) => (
-                  <div
-                    key={exchange}
-                    className="bg-[#181923] flex gap-[4px] items-center px-[6px] py-[4px] rounded-[6px]"
-                  >
-                    <div className="size-[16px] rounded-full bg-yellow-500" />
-                    <p className="text-[12px] font-medium text-white tracking-[-0.42px]">
-                      {exchange}
-                    </p>
-                    <button
-                      onClick={() => toggleExchange(exchange)}
-                      className="size-[16px] opacity-50 hover:opacity-100 transition-opacity"
-                    >
-                      <svg viewBox="0 0 16 16" fill="none" className="text-[#6a7282]">
-                        <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                      </svg>
-                    </button>
+            {/* Exchange Selector - Chips with Dropdown */}
+            <div className="relative" ref={exchangeDropdownRef}>
+              <button
+                onClick={() => setExchangeDropdownOpen(!exchangeDropdownOpen)}
+                className="bg-[#222430] flex gap-[8px] items-center px-[12px] h-[38px] rounded-[8px] hover:bg-[#2a2d37] transition-colors"
+              >
+                <p className="text-[12px] font-medium text-white tracking-[-0.42px] leading-[0]">
+                  Exchange:
+                </p>
+
+                {/* Selected Exchange Chips or Empty State */}
+                {selectedExchanges.length > 0 ? (
+                  <div className="flex gap-[4px] items-center">
+                    {selectedExchanges.slice(0, 2).map((exchange) => (
+                      <div
+                        key={exchange}
+                        className="bg-[#181923] px-[6px] py-[4px] rounded-[6px] flex gap-[4px] items-center"
+                      >
+                        <div className="size-[16px] rounded-full overflow-hidden shrink-0">
+                          <img
+                            src={exchangeIcons[exchange]}
+                            alt={exchangeNames[exchange]}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <p className="text-[12px] font-medium text-white tracking-[-0.42px] leading-[normal]">
+                          {exchangeNames[exchange]}
+                        </p>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleExchange(exchange);
+                          }}
+                          className="size-[16px] flex items-center justify-center transition-colors"
+                        >
+                          <svg viewBox="0 0 16 16" fill="none" className="text-[rgba(106,114,130,0.5)] w-[12px] h-[12px]">
+                            <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                          </svg>
+                        </button>
+                      </div>
+                    ))}
+                    {selectedExchanges.length > 2 && (
+                      <div className="bg-[#181923] px-[6px] py-[4px] rounded-[6px] flex items-center">
+                        <p className="text-[12px] font-medium text-white tracking-[-0.42px] leading-[normal]">
+                          +{selectedExchanges.length - 2}
+                        </p>
+                      </div>
+                    )}
                   </div>
-                ))}
-              </div>
-              <div className="size-[16px] opacity-50 pl-[4px]">
-                <svg viewBox="0 0 16 16" fill="currentColor" className="text-[#6a7282]">
-                  <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
+                ) : (
+                  <p className="text-[12px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[normal]">
+                    None selected
+                  </p>
+                )}
+
+                {/* Dropdown Icon */}
+                <div className="pl-[4px]">
+                  <svg viewBox="0 0 16 16" fill="none" className="text-[rgba(106,114,130,0.5)] w-[16px] h-[16px]">
+                    <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+              </button>
+
+              {/* Dropdown */}
+              {exchangeDropdownOpen && (
+                <div className="absolute top-full mt-[8px] left-0 bg-[#222430] border border-[rgba(255,255,255,0.03)] rounded-[8px] shadow-[0px_4px_16px_0px_rgba(0,0,0,0.08)] min-w-[200px] w-[255px] max-h-[380px] overflow-hidden z-50">
+                  <div className="p-[4px] max-h-[380px] overflow-y-auto">
+                    {/* All option - toggles between select all and clear all */}
+                    <button
+                      onClick={() => {
+                        if (selectedExchanges.length === exchanges.length) {
+                          clearAllExchanges();
+                        } else {
+                          selectAllExchanges();
+                        }
+                      }}
+                      className="w-full flex gap-[8px] items-center px-[8px] py-[8px] rounded-[4px] transition-colors hover:bg-[rgba(106,114,130,0.24)]"
+                    >
+                      <div className={`size-[16px] rounded-[4px] border-[1.5px] flex items-center justify-center shrink-0 transition-colors ${
+                        selectedExchanges.length === exchanges.length
+                          ? 'bg-[#619ee1] border-[#619ee1]'
+                          : 'border-[#6a7282]'
+                      }`}>
+                        {selectedExchanges.length === exchanges.length && (
+                          <svg viewBox="0 0 16 16" fill="none" className="text-white w-[10px] h-[10px]">
+                            <path d="M13 4L6 11L3 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        )}
+                      </div>
+                      <div className="size-[16px] rounded-full overflow-hidden shrink-0 bg-[#6a7282] flex items-center justify-center">
+                        <svg viewBox="0 0 16 16" fill="none" className="text-white w-[10px] h-[10px]">
+                          <path d="M3 8h10M8 3v10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                        </svg>
+                      </div>
+                      <p className="flex-1 text-left text-[12px] font-medium text-white tracking-[-0.36px] leading-[16px]">
+                        All
+                      </p>
+                    </button>
+
+                    {/* Individual exchanges */}
+                    {exchanges.map((exchange) => (
+                      <button
+                        key={exchange}
+                        onClick={() => toggleExchange(exchange)}
+                        className="w-full flex gap-[8px] items-center px-[8px] py-[8px] rounded-[4px] transition-colors hover:bg-[rgba(106,114,130,0.24)]"
+                      >
+                        <div className={`size-[16px] rounded-[4px] border-[1.5px] flex items-center justify-center shrink-0 transition-colors ${
+                          selectedExchanges.includes(exchange)
+                            ? 'bg-[#619ee1] border-[#619ee1]'
+                            : 'border-[#6a7282]'
+                        }`}>
+                          {selectedExchanges.includes(exchange) && (
+                            <svg viewBox="0 0 16 16" fill="none" className="text-white w-[10px] h-[10px]">
+                              <path d="M13 4L6 11L3 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          )}
+                        </div>
+                        <div className="size-[16px] rounded-full overflow-hidden shrink-0">
+                          <img
+                            src={exchangeIcons[exchange]}
+                            alt={exchange}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <p className="flex-1 text-left text-[12px] font-medium text-white tracking-[-0.36px] leading-[16px] overflow-hidden text-ellipsis whitespace-nowrap">
+                          {exchangeNames[exchange]}
+                        </p>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
           {/* Right: Estimation Window */}
-          <div className="bg-[#222430] flex items-center p-[2px] rounded-[8px]">
+          <div className="bg-[#222430] flex items-center p-[2px] rounded-[8px] h-[38px]">
             {windows.map((window) => (
               <button
                 key={window}
                 onClick={() => setEstimationWindow(window)}
-                className={`min-w-[48px] max-w-[108px] px-[12px] py-[8px] rounded-[6px] text-[12px] font-medium text-white tracking-[-0.36px] transition-colors ${
+                className={`min-w-[48px] max-w-[108px] px-[12px] h-[34px] rounded-[6px] text-[12px] font-medium text-white tracking-[-0.36px] transition-colors flex items-center justify-center ${
                   estimationWindow === window
                     ? 'bg-[#181923]'
                     : 'hover:bg-[#181923]/50'
@@ -310,7 +446,8 @@ export default function FilterSection({
                   className="absolute inset-0 w-full opacity-0 cursor-pointer"
                 />
               </div>
-              <div className="relative min-w-[56px]">
+              <div className="relative min-w-[56px] bg-[#222430] rounded-[8px] p-[10px] flex gap-[2px] items-center justify-end h-[32px]">
+                <p className="text-[12px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[16px] flex-1">x</p>
                 <input
                   type="number"
                   min="1"
@@ -319,7 +456,7 @@ export default function FilterSection({
                   value={futuresLeverage.toFixed(1)}
                   onChange={(e) => {
                     const val = Number(e.target.value);
-                    if (!isNaN(val) && val >= 1 && val <= 5) {
+                    if (!isNaN(val)) {
                       setFuturesLeverage(val);
                     }
                   }}
@@ -328,8 +465,7 @@ export default function FilterSection({
                     if (isNaN(val) || val < 1) setFuturesLeverage(1);
                     else if (val > 5) setFuturesLeverage(5);
                   }}
-                  className="w-full bg-[#222430] text-white text-[12px] font-medium rounded-[6px] px-[12px] h-[32px] text-right tracking-[-0.36px] leading-[16px] outline-none focus:border focus:border-[rgba(106,114,130,0.5)] transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                  placeholder="x"
+                  className="bg-transparent text-white text-[12px] font-medium text-right tracking-[-0.42px] leading-[16px] outline-none w-[24px] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
               </div>
             </div>
@@ -403,7 +539,8 @@ export default function FilterSection({
                   className="absolute inset-0 w-full opacity-0 cursor-pointer"
                 />
               </div>
-              <div className="relative min-w-[56px]">
+              <div className="relative min-w-[56px] bg-[#222430] rounded-[8px] p-[10px] flex gap-[2px] items-center justify-end h-[32px]">
+                <p className="text-[12px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[16px] flex-1">x</p>
                 <input
                   type="number"
                   min="0"
@@ -412,7 +549,7 @@ export default function FilterSection({
                   value={arkisBorrowCapital.toFixed(1)}
                   onChange={(e) => {
                     const val = Number(e.target.value);
-                    if (!isNaN(val) && val >= 0 && val <= 5) {
+                    if (!isNaN(val)) {
                       setArkisBorrowCapital(val);
                     }
                   }}
@@ -421,8 +558,7 @@ export default function FilterSection({
                     if (isNaN(val) || val < 0) setArkisBorrowCapital(0);
                     else if (val > 5) setArkisBorrowCapital(5);
                   }}
-                  className="w-full bg-[#222430] text-white text-[12px] font-medium rounded-[6px] px-[12px] h-[32px] text-right tracking-[-0.36px] leading-[16px] outline-none focus:border focus:border-[rgba(106,114,130,0.5)] transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                  placeholder="x"
+                  className="bg-transparent text-white text-[12px] font-medium text-right tracking-[-0.42px] leading-[16px] outline-none w-[24px] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
               </div>
             </div>
@@ -476,7 +612,8 @@ export default function FilterSection({
                   className="absolute inset-0 w-full opacity-0 cursor-pointer"
                 />
               </div>
-              <div className="relative min-w-[56px]">
+              <div className="relative min-w-[56px] bg-[#222430] rounded-[8px] p-[10px] flex gap-[2px] items-center justify-end h-[32px]">
+                <p className="text-[12px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[16px] flex-1">%</p>
                 <input
                   type="number"
                   min="5"
@@ -485,7 +622,7 @@ export default function FilterSection({
                   value={(borrowCost * 100).toFixed(1)}
                   onChange={(e) => {
                     const val = Number(e.target.value) / 100;
-                    if (!isNaN(val) && val >= 0.05 && val <= 0.15) {
+                    if (!isNaN(val)) {
                       setBorrowCost(val);
                     }
                   }}
@@ -494,8 +631,7 @@ export default function FilterSection({
                     if (isNaN(val) || val < 0.05) setBorrowCost(0.05);
                     else if (val > 0.15) setBorrowCost(0.15);
                   }}
-                  className="w-full bg-[#222430] text-white text-[12px] font-medium rounded-[6px] px-[12px] h-[32px] text-right tracking-[-0.36px] leading-[16px] outline-none focus:border focus:border-[rgba(106,114,130,0.5)] transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                  placeholder="%"
+                  className="bg-transparent text-white text-[12px] font-medium text-right tracking-[-0.42px] leading-[16px] outline-none w-[24px] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
               </div>
             </div>
@@ -543,7 +679,8 @@ export default function FilterSection({
                   className="absolute inset-0 w-full opacity-0 cursor-pointer"
                 />
               </div>
-              <div className="relative min-w-[56px]">
+              <div className="relative min-w-[56px] bg-[#222430] rounded-[8px] p-[10px] flex gap-[2px] items-center justify-end h-[32px]">
+                <p className="text-[12px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[16px] flex-1">%</p>
                 <input
                   type="number"
                   min="7"
@@ -552,7 +689,7 @@ export default function FilterSection({
                   value={(minTradeAPY * 100).toFixed(0)}
                   onChange={(e) => {
                     const val = Number(e.target.value) / 100;
-                    if (!isNaN(val) && val >= 0.07 && val <= 0.3) {
+                    if (!isNaN(val)) {
                       setMinTradeAPY(val);
                     }
                   }}
@@ -561,8 +698,7 @@ export default function FilterSection({
                     if (isNaN(val) || val < 0.07) setMinTradeAPY(0.07);
                     else if (val > 0.3) setMinTradeAPY(0.3);
                   }}
-                  className="w-full bg-[#222430] text-white text-[12px] font-medium rounded-[6px] px-[12px] h-[32px] text-right tracking-[-0.36px] leading-[16px] outline-none focus:border focus:border-[rgba(106,114,130,0.5)] transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                  placeholder="%"
+                  className="bg-transparent text-white text-[12px] font-medium text-right tracking-[-0.42px] leading-[16px] outline-none w-[24px] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
               </div>
             </div>

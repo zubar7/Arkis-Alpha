@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Header from './components/Header';
 import FilterSection from './components/FilterSection';
 import OpportunitiesTable from './components/OpportunitiesTable';
+import Footer from './components/Footer';
 
 export default function FRADashboard() {
   const [activeTab, setActiveTab] = useState<'perp-perp' | 'carry-trade'>('perp-perp');
@@ -73,10 +74,13 @@ export default function FRADashboard() {
 
         {/* Opportunities Table */}
         <OpportunitiesTable
+          activeTab={activeTab}
           selectedCoin={selectedCoin}
           estimationWindow={estimationWindow}
         />
       </main>
+
+      <Footer />
     </div>
   );
 }
