@@ -22,6 +22,14 @@ interface FilterSectionProps {
 const coins = ['AVAX', 'BTC', 'ETH', 'HYPE', 'LIT', 'SOL'];
 const exchanges = ['HYPERLIQUID', 'BYBIT', 'BINANCE', 'BITGET', 'OKX', 'HUOBI', 'LIGHTER'];
 const windows = ['1D', '3D', '1W', '2W', '1M', '3M'];
+const windowLabels: Record<string, string> = {
+  '1D': '1 day',
+  '3D': '3 days',
+  '1W': '1 week',
+  '2W': '2 weeks',
+  '1M': '1 month',
+  '3M': '3 months',
+};
 const leveragePresets = [2, 3, 5];
 const capitalPresets = [2, 3, 5];
 
@@ -76,7 +84,9 @@ export default function FilterSection({
   const [inWallet, setInWallet] = useState(false);
   const [coinDropdownOpen, setCoinDropdownOpen] = useState(false);
   const [coinSearch, setCoinSearch] = useState('');
+  const [windowDropdownOpen, setWindowDropdownOpen] = useState(false);
   const coinDropdownRef = useRef<HTMLDivElement>(null);
+  const windowDropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleExchange = (exchange: string) => {
     if (selectedExchanges.includes(exchange)) {
@@ -94,23 +104,26 @@ export default function FilterSection({
     setSelectedExchanges([]);
   };
 
-  // Close dropdown when clicking outside
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (coinDropdownRef.current && !coinDropdownRef.current.contains(event.target as Node)) {
         setCoinDropdownOpen(false);
         setCoinSearch('');
       }
+      if (windowDropdownRef.current && !windowDropdownRef.current.contains(event.target as Node)) {
+        setWindowDropdownOpen(false);
+      }
     };
 
-    if (coinDropdownOpen) {
+    if (coinDropdownOpen || windowDropdownOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [coinDropdownOpen]);
+  }, [coinDropdownOpen, windowDropdownOpen]);
 
   return (
     <div className="rounded-[10px] border border-[rgba(255,255,255,0.03)] bg-[#181923] p-[25px]">
@@ -263,15 +276,53 @@ export default function FilterSection({
           {/* Estimation Window */}
           <div className="flex flex-col gap-[8px]">
             <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px]">Estimation Window:</p>
-            <div className="bg-[#222430] flex items-center px-[12px] py-[10px] rounded-[8px] gap-[8px] min-w-[124px] cursor-pointer hover:bg-[#2a2d37] transition-colors">
-              <p className="flex-1 text-[12px] font-medium text-white tracking-[-0.42px]">
-                {estimationWindow}
-              </p>
-              <div className="size-[16px] opacity-50">
-                <svg viewBox="0 0 16 16" fill="currentColor" className="text-[#6a7282]">
-                  <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
+            <div className="relative" ref={windowDropdownRef}>
+              <button
+                onClick={() => setWindowDropdownOpen(!windowDropdownOpen)}
+                className="bg-[#222430] flex items-center px-[12px] py-[10px] rounded-[8px] gap-[8px] min-w-[124px] hover:bg-[#2a2d37] transition-colors"
+              >
+                <p className="flex-1 text-[12px] font-medium text-white tracking-[-0.42px]">
+                  {windowLabels[estimationWindow]}
+                </p>
+                <div className="size-[16px] opacity-50">
+                  <svg viewBox="0 0 16 16" fill="currentColor" className="text-[#6a7282]">
+                    <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+              </button>
+
+              {/* Dropdown */}
+              {windowDropdownOpen && (
+                <div className="absolute top-full mt-[8px] bg-[#222430] border border-[rgba(255,255,255,0.03)] rounded-[8px] shadow-[0px_4px_16px_0px_rgba(0,0,0,0.08)] min-w-[200px] w-full max-h-[300px] overflow-hidden z-50">
+                  <div className="p-[4px]">
+                    {windows.map((window) => (
+                      <button
+                        key={window}
+                        onClick={() => {
+                          setEstimationWindow(window);
+                          setWindowDropdownOpen(false);
+                        }}
+                        className={`w-full flex items-center px-[8px] py-[8px] rounded-[4px] transition-colors ${
+                          estimationWindow === window
+                            ? 'bg-[rgba(106,114,130,0.24)]'
+                            : 'hover:bg-[rgba(106,114,130,0.12)]'
+                        }`}
+                      >
+                        <p className="flex-1 text-left text-[12px] font-medium text-white tracking-[-0.36px] leading-[16px]">
+                          {windowLabels[window]}
+                        </p>
+                        {estimationWindow === window && (
+                          <div className="size-[16px]">
+                            <svg viewBox="0 0 16 16" fill="none" className="text-white">
+                              <path d="M13 4L6 11L3 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </div>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
