@@ -250,16 +250,16 @@ export default function OpportunitiesTable({
                     <div className="flex-1 flex items-center gap-[8px]">
                       <div className="size-[24px] rounded-full overflow-hidden">
                         <img
-                          src={exchangeIcons[(opp as any).long.exchange]}
-                          alt={(opp as any).long.exchange}
+                          src={activeTab === 'carry-trade' ? `/icons/tokens/${(opp as any).long.asset.toLowerCase().replace(/ /g, '')}.png` : exchangeIcons[(opp as any).long.exchange]}
+                          alt={activeTab === 'carry-trade' ? (opp as any).long.asset : (opp as any).long.exchange}
                           className="w-full h-full object-cover"
                         />
                       </div>
                       <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px]">
-                        {(opp as any).long.pair}
+                        {activeTab === 'carry-trade' ? (opp as any).long.asset : (opp as any).long.pair}
                       </p>
                       <p className="text-[14px] font-medium text-[rgba(255,255,255,0.2)] tracking-[-0.42px] leading-[20px]">
-                        {(opp as any).long.exchange.charAt(0) + (opp as any).long.exchange.slice(1).toLowerCase()}
+                        {activeTab === 'carry-trade' ? (opp as any).long.platform : (opp as any).long.exchange.charAt(0) + (opp as any).long.exchange.slice(1).toLowerCase()}
                       </p>
                     </div>
 
@@ -480,12 +480,12 @@ export default function OpportunitiesTable({
                                 <div className="flex items-start justify-between h-[24px]">
                                   <div className="flex items-center gap-[8px]">
                                     <div className="size-[24px] rounded-full overflow-hidden">
-                                      <img src={exchangeIcons[(opp as any).long.exchange]} alt={(opp as any).long.exchange} className="w-full h-full object-cover" />
+                                      <img src={activeTab === 'carry-trade' ? `/icons/tokens/${(opp as any).long.asset.toLowerCase().replace(/ /g, '')}.png` : exchangeIcons[(opp as any).long.exchange]} alt={activeTab === 'carry-trade' ? (opp as any).long.asset : (opp as any).long.exchange} className="w-full h-full object-cover" />
                                     </div>
                                     <div className="flex items-baseline gap-[8px]">
-                                      <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px]">{(opp as any).long.pair}</p>
+                                      <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px]">{activeTab === 'carry-trade' ? (opp as any).long.asset : (opp as any).long.pair}</p>
                                       <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[20px]">
-                                        {(opp as any).long.exchange.charAt(0) + (opp as any).long.exchange.slice(1).toLowerCase()}
+                                        {activeTab === 'carry-trade' ? (opp as any).long.platform : (opp as any).long.exchange.charAt(0) + (opp as any).long.exchange.slice(1).toLowerCase()}
                                       </p>
                                     </div>
                                   </div>
@@ -910,12 +910,12 @@ export default function OpportunitiesTable({
                             <div className="flex items-start justify-between h-[24px]">
                               <div className="flex items-center gap-[8px]">
                                 <div className="size-[24px] rounded-full overflow-hidden">
-                                  <img src={exchangeIcons[(opp as any).long.exchange]} alt={(opp as any).long.exchange} className="w-full h-full object-cover" />
+                                  <img src={activeTab === 'carry-trade' ? `/icons/tokens/${(opp as any).long.asset.toLowerCase().replace(/ /g, '')}.png` : exchangeIcons[(opp as any).long.exchange]} alt={activeTab === 'carry-trade' ? (opp as any).long.asset : (opp as any).long.exchange} className="w-full h-full object-cover" />
                                 </div>
                                 <div className="flex items-baseline gap-[8px]">
-                                  <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px]">{(opp as any).long.pair}</p>
+                                  <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px]">{activeTab === 'carry-trade' ? (opp as any).long.asset : (opp as any).long.pair}</p>
                                   <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[20px]">
-                                    {(opp as any).long.exchange.charAt(0) + (opp as any).long.exchange.slice(1).toLowerCase()}
+                                    {activeTab === 'carry-trade' ? (opp as any).long.platform : (opp as any).long.exchange.charAt(0) + (opp as any).long.exchange.slice(1).toLowerCase()}
                                   </p>
                                 </div>
                               </div>
