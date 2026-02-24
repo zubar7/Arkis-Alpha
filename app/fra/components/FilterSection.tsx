@@ -35,6 +35,28 @@ const coinIcons: Record<string, string> = {
   'SOL': '/icons/tokens/sol.png',
 };
 
+// Exchange icon URLs
+const exchangeIcons: Record<string, string> = {
+  'HYPERLIQUID': '/icons/exchanges/hyperliquid.png',
+  'BYBIT': '/icons/exchanges/bybit.png',
+  'BINANCE': '/icons/exchanges/binance.png',
+  'BITGET': '/icons/exchanges/bitget.png',
+  'OKX': '/icons/exchanges/okx.png',
+  'HUOBI': '/icons/exchanges/huobi.png',
+  'LIGHTER': '/icons/exchanges/lighter.png',
+};
+
+// Exchange display names (title case)
+const exchangeNames: Record<string, string> = {
+  'HYPERLIQUID': 'Hyperliquid',
+  'BYBIT': 'Bybit',
+  'BINANCE': 'Binance',
+  'BITGET': 'Bitget',
+  'OKX': 'OKX',
+  'HUOBI': 'Huobi',
+  'LIGHTER': 'Lighter',
+};
+
 export default function FilterSection({
   selectedCoin,
   setSelectedCoin,
@@ -193,9 +215,9 @@ export default function FilterSection({
               )}
             </div>
 
-            {/* Exchange Selector - Green Pills */}
-            <div className="flex gap-[6px] items-center flex-wrap">
-              {/* All option */}
+            {/* Exchange Selector - Chips */}
+            <div className="flex gap-[4px] items-center flex-wrap">
+              {/* All button */}
               <button
                 onClick={() => {
                   if (selectedExchanges.length === exchanges.length) {
@@ -204,26 +226,35 @@ export default function FilterSection({
                     selectAllExchanges();
                   }
                 }}
-                className="text-[12px] font-medium text-[rgba(107,114,128,0.4)] underline leading-[16px] hover:text-[rgba(107,114,128,0.6)] transition-colors"
+                className="bg-[#619ee1] px-[16px] py-[10px] rounded-[6px] text-[12px] font-medium text-white tracking-[-0.42px] leading-[16px] hover:bg-[#5089d0] transition-colors"
               >
-                ALL
+                All
               </button>
 
-              {/* Exchange Pills */}
-              {exchanges.map((exchange) => (
-                <button
-                  key={exchange}
-                  onClick={() => toggleExchange(exchange)}
-                  className={`px-[11px] py-[5px] rounded-[4px] border text-[12px] font-medium leading-[16px] transition-colors ${
-                    selectedExchanges.includes(exchange)
-                      ? 'bg-[rgba(0,229,160,0.1)] border-[#00e5a0] text-[#00e5a0]'
-                      : 'bg-transparent border-[rgba(107,114,128,0.2)] text-[rgba(107,114,128,0.4)] hover:border-[rgba(107,114,128,0.4)]'
-                  }`}
-                  style={{ fontFamily: 'JetBrains Mono, monospace' }}
-                >
-                  {exchange}
-                </button>
-              ))}
+              {/* Exchange Chips - Always show all, fade when deselected */}
+              {exchanges.map((exchange) => {
+                const isSelected = selectedExchanges.includes(exchange);
+                return (
+                  <button
+                    key={exchange}
+                    onClick={() => toggleExchange(exchange)}
+                    className={`bg-[#222430] flex gap-[4px] items-center pl-[12px] pr-[16px] py-[10px] rounded-[6px] hover:bg-[#2a2d37] transition-all ${
+                      isSelected ? 'opacity-100' : 'opacity-30'
+                    }`}
+                  >
+                    <div className="size-[16px] rounded-full overflow-hidden shrink-0">
+                      <img
+                        src={exchangeIcons[exchange]}
+                        alt={exchangeNames[exchange]}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <p className="text-[12px] font-medium text-white tracking-[-0.42px] leading-[16px]">
+                      {exchangeNames[exchange]}
+                    </p>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
