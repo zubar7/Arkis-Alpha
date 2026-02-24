@@ -232,8 +232,8 @@ export default function FilterSection({
 
                 {/* Selected Exchange Chips or Empty State */}
                 {selectedExchanges.length > 0 ? (
-                  <div className="flex gap-[4px] items-center">
-                    {selectedExchanges.slice(0, 2).map((exchange) => (
+                  <div className="flex gap-[4px] items-center flex-wrap">
+                    {selectedExchanges.map((exchange) => (
                       <div
                         key={exchange}
                         className="bg-[#181923] px-[6px] py-[4px] rounded-[6px] flex gap-[4px] items-center"
@@ -261,13 +261,6 @@ export default function FilterSection({
                         </button>
                       </div>
                     ))}
-                    {selectedExchanges.length > 2 && (
-                      <div className="bg-[#181923] px-[6px] py-[4px] rounded-[6px] flex items-center">
-                        <p className="text-[12px] font-medium text-white tracking-[-0.42px] leading-[normal]">
-                          +{selectedExchanges.length - 2}
-                        </p>
-                      </div>
-                    )}
                   </div>
                 ) : (
                   <p className="text-[12px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[normal]">
