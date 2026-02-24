@@ -769,11 +769,9 @@ export default function OpportunitiesTable({
 
                       {/* Connector */}
                       <div className="w-[8px] h-[45px]">
-                        <img
-                          src="http://localhost:3845/assets/ccb14a1b80d2472e420223b9c8f79484c6da03cc.svg"
-                          alt=""
-                          className="w-full h-full"
-                        />
+                        <svg preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 8 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M0 0C0 2.20914 1.79086 4 4 4C6.20914 4 8 2.20914 8 0V45C8 42.7909 6.20914 41 4 41C1.79086 41 0 42.7909 0 45V0Z" fill="rgba(34,36,48,0.5)"/>
+                        </svg>
                       </div>
 
                       {/* Arkis Borrow */}
@@ -793,11 +791,9 @@ export default function OpportunitiesTable({
 
                       {/* Connector */}
                       <div className="w-[8px] h-[45px]">
-                        <img
-                          src="http://localhost:3845/assets/ccb14a1b80d2472e420223b9c8f79484c6da03cc.svg"
-                          alt=""
-                          className="w-full h-full"
-                        />
+                        <svg preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 8 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M0 0C0 2.20914 1.79086 4 4 4C6.20914 4 8 2.20914 8 0V45C8 42.7909 6.20914 41 4 41C1.79086 41 0 42.7909 0 45V0Z" fill="rgba(34,36,48,0.5)"/>
+                        </svg>
                       </div>
 
                       {/* Capital Pool */}
