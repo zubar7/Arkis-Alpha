@@ -35,28 +35,6 @@ const coinIcons: Record<string, string> = {
   'SOL': '/icons/tokens/sol.png',
 };
 
-// Exchange icon URLs
-const exchangeIcons: Record<string, string> = {
-  'HYPERLIQUID': '/icons/exchanges/hyperliquid.png',
-  'BYBIT': '/icons/exchanges/bybit.png',
-  'BINANCE': '/icons/exchanges/binance.png',
-  'BITGET': '/icons/exchanges/bitget.png',
-  'OKX': '/icons/exchanges/okx.png',
-  'HUOBI': '/icons/exchanges/huobi.png',
-  'LIGHTER': '/icons/exchanges/lighter.png',
-};
-
-// Exchange display names (title case)
-const exchangeNames: Record<string, string> = {
-  'HYPERLIQUID': 'Hyperliquid',
-  'BYBIT': 'Bybit',
-  'BINANCE': 'Binance',
-  'BITGET': 'Bitget',
-  'OKX': 'OKX',
-  'HUOBI': 'Huobi',
-  'LIGHTER': 'Lighter',
-};
-
 export default function FilterSection({
   selectedCoin,
   setSelectedCoin,
@@ -76,9 +54,7 @@ export default function FilterSection({
   const [inWallet, setInWallet] = useState(false);
   const [coinDropdownOpen, setCoinDropdownOpen] = useState(false);
   const [coinSearch, setCoinSearch] = useState('');
-  const [exchangeDropdownOpen, setExchangeDropdownOpen] = useState(false);
   const coinDropdownRef = useRef<HTMLDivElement>(null);
-  const exchangeDropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleExchange = (exchange: string) => {
     if (selectedExchanges.includes(exchange)) {
@@ -96,26 +72,23 @@ export default function FilterSection({
     setSelectedExchanges([]);
   };
 
-  // Close dropdowns when clicking outside
+  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (coinDropdownRef.current && !coinDropdownRef.current.contains(event.target as Node)) {
         setCoinDropdownOpen(false);
         setCoinSearch('');
       }
-      if (exchangeDropdownRef.current && !exchangeDropdownRef.current.contains(event.target as Node)) {
-        setExchangeDropdownOpen(false);
-      }
     };
 
-    if (coinDropdownOpen || exchangeDropdownOpen) {
+    if (coinDropdownOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [coinDropdownOpen, exchangeDropdownOpen]);
+  }, [coinDropdownOpen]);
 
   return (
     <div className="rounded-[10px] border border-[rgba(255,255,255,0.03)] bg-[#181923] p-[25px]">
@@ -220,131 +193,37 @@ export default function FilterSection({
               )}
             </div>
 
-            {/* Exchange Selector - Chips with Dropdown */}
-            <div className="relative" ref={exchangeDropdownRef}>
+            {/* Exchange Selector - Green Pills */}
+            <div className="flex gap-[6px] items-center flex-wrap">
+              {/* All option */}
               <button
-                onClick={() => setExchangeDropdownOpen(!exchangeDropdownOpen)}
-                className="bg-[#222430] flex gap-[8px] items-center px-[12px] h-[38px] rounded-[8px] hover:bg-[#2a2d37] transition-colors"
+                onClick={() => {
+                  if (selectedExchanges.length === exchanges.length) {
+                    clearAllExchanges();
+                  } else {
+                    selectAllExchanges();
+                  }
+                }}
+                className="text-[12px] font-medium text-[rgba(107,114,128,0.4)] underline leading-[16px] hover:text-[rgba(107,114,128,0.6)] transition-colors"
               >
-                <p className="text-[12px] font-medium text-white tracking-[-0.42px] leading-[0]">
-                  Exchange:
-                </p>
-
-                {/* Selected Exchange Chips or Empty State */}
-                {selectedExchanges.length > 0 ? (
-                  <div className="flex gap-[4px] items-center flex-wrap">
-                    {selectedExchanges.map((exchange) => (
-                      <div
-                        key={exchange}
-                        className="bg-[#181923] px-[6px] py-[4px] rounded-[6px] flex gap-[4px] items-center"
-                      >
-                        <div className="size-[16px] rounded-full overflow-hidden shrink-0">
-                          <img
-                            src={exchangeIcons[exchange]}
-                            alt={exchangeNames[exchange]}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <p className="text-[12px] font-medium text-white tracking-[-0.42px] leading-[normal]">
-                          {exchangeNames[exchange]}
-                        </p>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            toggleExchange(exchange);
-                          }}
-                          className="size-[16px] flex items-center justify-center transition-colors"
-                        >
-                          <svg viewBox="0 0 16 16" fill="none" className="text-[rgba(106,114,130,0.5)] w-[12px] h-[12px]">
-                            <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                          </svg>
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-[12px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[normal]">
-                    None selected
-                  </p>
-                )}
-
-                {/* Dropdown Icon */}
-                <div className="pl-[4px]">
-                  <svg viewBox="0 0 16 16" fill="none" className="text-[rgba(106,114,130,0.5)] w-[16px] h-[16px]">
-                    <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
+                ALL
               </button>
 
-              {/* Dropdown */}
-              {exchangeDropdownOpen && (
-                <div className="absolute top-full mt-[8px] left-0 bg-[#222430] border border-[rgba(255,255,255,0.03)] rounded-[8px] shadow-[0px_4px_16px_0px_rgba(0,0,0,0.08)] min-w-[200px] w-[255px] max-h-[380px] overflow-hidden z-50">
-                  <div className="p-[4px] max-h-[380px] overflow-y-auto">
-                    {/* All option - toggles between select all and clear all */}
-                    <button
-                      onClick={() => {
-                        if (selectedExchanges.length === exchanges.length) {
-                          clearAllExchanges();
-                        } else {
-                          selectAllExchanges();
-                        }
-                      }}
-                      className="w-full flex gap-[8px] items-center px-[8px] py-[8px] rounded-[4px] transition-colors hover:bg-[rgba(106,114,130,0.24)]"
-                    >
-                      <div className={`size-[16px] rounded-[4px] border-[1.5px] flex items-center justify-center shrink-0 transition-colors ${
-                        selectedExchanges.length === exchanges.length
-                          ? 'bg-[#619ee1] border-[#619ee1]'
-                          : 'border-[#6a7282]'
-                      }`}>
-                        {selectedExchanges.length === exchanges.length && (
-                          <svg viewBox="0 0 16 16" fill="none" className="text-white w-[10px] h-[10px]">
-                            <path d="M13 4L6 11L3 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                          </svg>
-                        )}
-                      </div>
-                      <div className="size-[16px] rounded-full overflow-hidden shrink-0 bg-[#6a7282] flex items-center justify-center">
-                        <svg viewBox="0 0 16 16" fill="none" className="text-white w-[10px] h-[10px]">
-                          <path d="M3 8h10M8 3v10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                        </svg>
-                      </div>
-                      <p className="flex-1 text-left text-[12px] font-medium text-white tracking-[-0.36px] leading-[16px]">
-                        All
-                      </p>
-                    </button>
-
-                    {/* Individual exchanges */}
-                    {exchanges.map((exchange) => (
-                      <button
-                        key={exchange}
-                        onClick={() => toggleExchange(exchange)}
-                        className="w-full flex gap-[8px] items-center px-[8px] py-[8px] rounded-[4px] transition-colors hover:bg-[rgba(106,114,130,0.24)]"
-                      >
-                        <div className={`size-[16px] rounded-[4px] border-[1.5px] flex items-center justify-center shrink-0 transition-colors ${
-                          selectedExchanges.includes(exchange)
-                            ? 'bg-[#619ee1] border-[#619ee1]'
-                            : 'border-[#6a7282]'
-                        }`}>
-                          {selectedExchanges.includes(exchange) && (
-                            <svg viewBox="0 0 16 16" fill="none" className="text-white w-[10px] h-[10px]">
-                              <path d="M13 4L6 11L3 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
-                          )}
-                        </div>
-                        <div className="size-[16px] rounded-full overflow-hidden shrink-0">
-                          <img
-                            src={exchangeIcons[exchange]}
-                            alt={exchange}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <p className="flex-1 text-left text-[12px] font-medium text-white tracking-[-0.36px] leading-[16px] overflow-hidden text-ellipsis whitespace-nowrap">
-                          {exchangeNames[exchange]}
-                        </p>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
+              {/* Exchange Pills */}
+              {exchanges.map((exchange) => (
+                <button
+                  key={exchange}
+                  onClick={() => toggleExchange(exchange)}
+                  className={`px-[11px] py-[5px] rounded-[4px] border text-[12px] font-medium leading-[16px] transition-colors ${
+                    selectedExchanges.includes(exchange)
+                      ? 'bg-[rgba(0,229,160,0.1)] border-[#00e5a0] text-[#00e5a0]'
+                      : 'bg-transparent border-[rgba(107,114,128,0.2)] text-[rgba(107,114,128,0.4)] hover:border-[rgba(107,114,128,0.4)]'
+                  }`}
+                  style={{ fontFamily: 'JetBrains Mono, monospace' }}
+                >
+                  {exchange}
+                </button>
+              ))}
             </div>
           </div>
 
