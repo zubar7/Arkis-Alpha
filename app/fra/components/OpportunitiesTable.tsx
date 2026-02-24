@@ -123,7 +123,7 @@ export default function OpportunitiesTable({
   selectedCoin,
   estimationWindow,
 }: OpportunitiesTableProps) {
-  const [expandedRows, setExpandedRows] = useState<number[]>([1]);
+  const [expandedRows, setExpandedRows] = useState<number[]>([]);
   const [watchlist, setWatchlist] = useState<number[]>([]);
 
   const toggleRow = (id: number) => {
@@ -133,7 +133,8 @@ export default function OpportunitiesTable({
   };
 
   const toggleWatchlist = (id: number, e: React.MouseEvent) => {
-    e.stopPropagation();
+    e?.stopPropagation();
+    e?.preventDefault();
     setWatchlist((prev) =>
       prev.includes(id) ? prev.filter((oppId) => oppId !== id) : [...prev, id]
     );
