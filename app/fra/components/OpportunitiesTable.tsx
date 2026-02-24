@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 
 interface OpportunitiesTableProps {
   activeTab: 'perp-perp' | 'carry-trade';
@@ -126,19 +126,19 @@ export default function OpportunitiesTable({
   const [expandedRows, setExpandedRows] = useState<number[]>([]);
   const [watchlist, setWatchlist] = useState<number[]>([]);
 
-  const toggleRow = (id: number) => {
+  const toggleRow = useCallback((id: number) => {
     setExpandedRows((prev) =>
       prev.includes(id) ? prev.filter((rowId) => rowId !== id) : [...prev, id]
     );
-  };
+  }, []);
 
-  const toggleWatchlist = (id: number, e: React.MouseEvent) => {
+  const toggleWatchlist = useCallback((id: number, e: React.MouseEvent) => {
     e?.stopPropagation();
     e?.preventDefault();
     setWatchlist((prev) =>
       prev.includes(id) ? prev.filter((oppId) => oppId !== id) : [...prev, id]
     );
-  };
+  }, []);
 
   // Select opportunities based on activeTab
   const allOpportunities = activeTab === 'carry-trade' ? carryTradeOpportunities : opportunities;
