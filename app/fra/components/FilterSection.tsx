@@ -281,7 +281,7 @@ export default function FilterSection({
                 onClick={() => setWindowDropdownOpen(!windowDropdownOpen)}
                 className="bg-[#222430] flex items-center px-[12px] py-[10px] rounded-[8px] gap-[8px] min-w-[124px] hover:bg-[#2a2d37] transition-colors"
               >
-                <p className="flex-1 text-[12px] font-medium text-white tracking-[-0.42px]">
+                <p className="flex-1 text-left text-[12px] font-medium text-white tracking-[-0.42px]">
                   {windowLabels[estimationWindow]}
                 </p>
                 <div className="size-[16px] opacity-50">
