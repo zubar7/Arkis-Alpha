@@ -258,9 +258,11 @@ export default function OpportunitiesTable({
                       <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px]">
                         {(opp as any).long.asset || (opp as any).long.pair}
                       </p>
-                      <p className="text-[14px] font-medium text-[rgba(255,255,255,0.2)] tracking-[-0.42px] leading-[20px]">
-                        {(opp as any).long.platform || ((opp as any).long.exchange?.charAt(0) + (opp as any).long.exchange?.slice(1).toLowerCase())}
-                      </p>
+                      {(opp as any).long.asset !== 'Naked Spot' && (
+                        <p className="text-[14px] font-medium text-[rgba(255,255,255,0.2)] tracking-[-0.42px] leading-[20px]">
+                          {(opp as any).long.platform || ((opp as any).long.exchange?.charAt(0) + (opp as any).long.exchange?.slice(1).toLowerCase())}
+                        </p>
+                      )}
                     </div>
 
                     {/* Short Exchange */}
@@ -484,9 +486,11 @@ export default function OpportunitiesTable({
                                     </div>
                                     <div className="flex items-baseline gap-[8px]">
                                       <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px]">{(opp as any).long.asset || (opp as any).long.pair}</p>
-                                      <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[20px]">
-                                        {(opp as any).long.platform || ((opp as any).long.exchange?.charAt(0) + (opp as any).long.exchange?.slice(1).toLowerCase())}
-                                      </p>
+                                      {(opp as any).long.asset !== 'Naked Spot' && (
+                                        <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[20px]">
+                                          {(opp as any).long.platform || ((opp as any).long.exchange?.charAt(0) + (opp as any).long.exchange?.slice(1).toLowerCase())}
+                                        </p>
+                                      )}
                                     </div>
                                   </div>
                                   <div className="flex items-center gap-[4px]">
