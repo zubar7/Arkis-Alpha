@@ -228,7 +228,7 @@ export default function FilterSection({
 
           {/* Exchange Selector */}
           <div className="flex flex-col gap-[8px] flex-1">
-            <p className="text-[14px] font-semibold text-white tracking-[-0.42px] leading-[20px]">Select Exchange:</p>
+            <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px]">Select Exchange:</p>
               <div className="flex gap-[4px] items-start flex-wrap">
               {/* All button */}
               <button
