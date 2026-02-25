@@ -251,10 +251,10 @@ export default function FilterSection({
                   <button
                     key={exchange}
                     onClick={() => toggleExchange(exchange)}
-                    className={`flex gap-[4px] items-center pl-[12px] pr-[16px] py-[10px] rounded-[6px] transition-[background-color,border-color] duration-150 ${
+                    className={`flex gap-[4px] items-center pl-[12px] pr-[16px] py-[10px] rounded-[6px] border transition-[background-color,border-color] duration-150 ${
                       isSelected
-                        ? 'bg-[#222c3e] border border-[#3b5a7f]'
-                        : 'bg-[#222430]'
+                        ? 'bg-[#222c3e] border-[#3b5a7f]'
+                        : 'bg-[#222430] border-transparent'
                     }`}
                   >
                     <div className="size-[16px] rounded-full overflow-hidden shrink-0">
