@@ -125,6 +125,8 @@ export default function OpportunitiesTable({
 }: OpportunitiesTableProps) {
   const [expandedRows, setExpandedRows] = useState<number[]>([]);
   const [watchlist, setWatchlist] = useState<number[]>([]);
+  const [sortColumn, setSortColumn] = useState<'unlevered' | 'levered' | null>(null);
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
 
   const toggleRow = useCallback((id: number) => {
     setExpandedRows((prev) =>
@@ -140,8 +142,29 @@ export default function OpportunitiesTable({
     );
   }, []);
 
+  const toggleSort = useCallback((column: 'unlevered' | 'levered') => {
+    if (sortColumn === column) {
+      // Same column - toggle direction
+      setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc');
+    } else {
+      // New column - set to descending by default
+      setSortColumn(column);
+      setSortDirection('desc');
+    }
+  }, [sortColumn]);
+
   // Select opportunities based on activeTab
-  const allOpportunities = activeTab === 'carry-trade' ? carryTradeOpportunities : opportunities;
+  let allOpportunities = activeTab === 'carry-trade' ? [...carryTradeOpportunities] : [...opportunities];
+
+  // Apply sorting
+  if (sortColumn) {
+    allOpportunities.sort((a, b) => {
+      const aValue = sortColumn === 'unlevered' ? a.unleveredAPY : a.leveredAPY;
+      const bValue = sortColumn === 'unlevered' ? b.unleveredAPY : b.leveredAPY;
+      return sortDirection === 'desc' ? bValue - aValue : aValue - bValue;
+    });
+  }
+
   const watchlistOpportunities = allOpportunities.filter(opp => watchlist.includes(opp.id));
   const regularOpportunities = allOpportunities.filter(opp => !watchlist.includes(opp.id));
 
@@ -177,26 +200,32 @@ export default function OpportunitiesTable({
               Short
             </p>
           </div>
-          <div className="flex-1 flex items-center gap-[4px]">
-            <p className="text-[12px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[16px]">
+          <button
+            onClick={() => toggleSort('unlevered')}
+            className="flex-1 flex items-center gap-[4px] cursor-pointer hover:opacity-80 transition-opacity"
+          >
+            <p className={`text-[12px] font-medium tracking-[-0.42px] leading-[16px] ${sortColumn === 'unlevered' ? 'text-white' : 'text-[#6a7282]'}`}>
               Unleveraged APY
             </p>
-            <div className="size-[12px] flex items-center justify-center opacity-50">
-              <svg viewBox="0 0 16 16" fill="none" className="text-[#6a7282]">
+            <div className={`size-[12px] flex items-center justify-center transition-opacity ${sortColumn === 'unlevered' ? 'opacity-100' : 'opacity-30'}`}>
+              <svg viewBox="0 0 16 16" fill="none" className={sortColumn === 'unlevered' ? 'text-white' : 'text-[#6a7282]'} style={{ transform: sortColumn === 'unlevered' && sortDirection === 'asc' ? 'rotate(180deg)' : 'none' }}>
                 <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
-          </div>
-          <div className="flex-1 flex items-center gap-[4px]">
-            <p className="text-[12px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[16px]">
+          </button>
+          <button
+            onClick={() => toggleSort('levered')}
+            className="flex-1 flex items-center gap-[4px] cursor-pointer hover:opacity-80 transition-opacity"
+          >
+            <p className={`text-[12px] font-medium tracking-[-0.42px] leading-[16px] ${sortColumn === 'levered' ? 'text-white' : 'text-[#6a7282]'}`}>
               Leveraged APY
             </p>
-            <div className="size-[12px] flex items-center justify-center opacity-50">
-              <svg viewBox="0 0 16 16" fill="none" className="text-[#6a7282]">
+            <div className={`size-[12px] flex items-center justify-center transition-opacity ${sortColumn === 'levered' ? 'opacity-100' : 'opacity-30'}`}>
+              <svg viewBox="0 0 16 16" fill="none" className={sortColumn === 'levered' ? 'text-white' : 'text-[#6a7282]'} style={{ transform: sortColumn === 'levered' && sortDirection === 'asc' ? 'rotate(180deg)' : 'none' }}>
                 <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
-          </div>
+          </button>
         </div>
 
         {/* Watchlist Section */}
