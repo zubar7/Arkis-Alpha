@@ -293,7 +293,7 @@ export default function FilterSection({
 
               {/* Dropdown */}
               {windowDropdownOpen && (
-                <div className="absolute top-full mt-[8px] bg-[#222430] border border-[rgba(255,255,255,0.03)] rounded-[8px] shadow-[0px_4px_16px_0px_rgba(0,0,0,0.08)] min-w-[200px] w-full max-h-[300px] overflow-hidden z-50">
+                <div className="absolute top-full right-0 mt-[8px] bg-[#222430] border border-[rgba(255,255,255,0.03)] rounded-[8px] shadow-[0px_4px_16px_0px_rgba(0,0,0,0.08)] min-w-[200px] w-full max-h-[300px] overflow-hidden z-50">
                   <div className="p-[4px]">
                     {windows.map((window) => (
                       <button
