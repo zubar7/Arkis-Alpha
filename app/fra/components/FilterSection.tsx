@@ -129,7 +129,7 @@ export default function FilterSection({
     <div className="rounded-[10px] border border-[rgba(255,255,255,0.03)] bg-[#181923] p-[25px]">
       <div className="space-y-[24px]">
         {/* Header */}
-        <div className="pb-[16px]">
+        <div>
           <h2 className="text-[20px] font-semibold text-white tracking-[-0.42px] leading-[28px]">
             Position Settings
           </h2>
