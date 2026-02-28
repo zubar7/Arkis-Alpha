@@ -19,13 +19,13 @@ export default function FRADashboard() {
   const [minTradeAPY, setMinTradeAPY] = useState(0.1);
 
   return (
-    <div className="min-h-screen bg-[#0d0f14] text-gray-100 pt-[16px] px-[16px]">
+    <div className="min-h-screen bg-[#0d0f14] text-gray-100 pt-[12px] px-[12px] sm:pt-[16px] sm:px-[16px]">
       <Header />
 
-      <main className="max-w-5xl mx-auto pt-[80px] pb-[80px] space-y-6">
+      <main className="w-full max-w-5xl mx-auto pt-[60px] pb-[40px] sm:pt-[70px] sm:pb-[60px] lg:pt-[80px] lg:pb-[80px] space-y-4 sm:space-y-6">
         {/* Heading and Tab Navigation */}
-        <div className="flex flex-col gap-[24px]">
-          <h1 className="text-[40px] font-bold leading-[40px] tracking-[-1.2px] text-white whitespace-pre-wrap">
+        <div className="flex flex-col gap-[16px] sm:gap-[24px]">
+          <h1 className="text-[28px] sm:text-[32px] lg:text-[40px] font-bold leading-tight tracking-[-1.2px] text-white">
             Arkis Alpha
           </h1>
 

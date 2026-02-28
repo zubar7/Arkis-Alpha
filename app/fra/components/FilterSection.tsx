@@ -135,8 +135,8 @@ export default function FilterSection({
           </h2>
         </div>
 
-        {/* Row 1: All Controls in One Row */}
-        <div className="flex items-start gap-[16px]">
+        {/* Row 1: All Controls - Responsive Layout */}
+        <div className="flex flex-col sm:flex-row items-start gap-[12px] sm:gap-[16px]">
           {/* Coin Selector */}
           <div className="flex flex-col gap-[8px]">
             <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px]">Select Coin:</p>
@@ -227,7 +227,7 @@ export default function FilterSection({
           </div>
 
           {/* Exchange Selector */}
-          <div className="flex flex-col gap-[8px] flex-1">
+          <div className="flex flex-col gap-[8px] w-full sm:flex-1">
             <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px]">Select Exchange:</p>
               <div className="flex gap-[4px] items-start flex-wrap">
               {/* All button */}

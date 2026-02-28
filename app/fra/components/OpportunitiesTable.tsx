@@ -169,9 +169,10 @@ export default function OpportunitiesTable({
   const regularOpportunities = allOpportunities.filter(opp => !watchlist.includes(opp.id));
 
   return (
-    <div className="flex flex-col gap-[2px]">
-      {/* Header Info Row */}
-      <div className="bg-[rgba(34,36,48,0.3)] flex items-center gap-[12px] px-[24px] py-[14px] rounded-[12px] text-[12px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[16px]">
+    <div className="w-full overflow-x-auto">
+      <div className="flex flex-col gap-[2px] min-w-[768px]">
+        {/* Header Info Row */}
+        <div className="bg-[rgba(34,36,48,0.3)] flex items-center gap-[12px] px-[16px] sm:px-[24px] py-[12px] sm:py-[14px] rounded-[12px] text-[11px] sm:text-[12px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[16px]">
         <div className="flex items-center gap-[8px]">
           <div className="size-[8px] rounded-full bg-[#619ee1]" />
           <span className="text-white">{allOpportunities.length}</span>
@@ -1096,6 +1097,7 @@ export default function OpportunitiesTable({
           );
         })}
       </div>
+    </div>
     </div>
   );
 }
