@@ -396,7 +396,7 @@ export default function OpportunitiesTable({
 
                     {/* APY Section */}
                     <div className="flex items-center gap-[16px] pt-[4px]">
-                      <div className="flex-1 flex flex-col gap-[12px]">
+                      <div className="flex-1 flex flex-col gap-[4px]">
                         <p className="text-[11px] font-medium text-[#6a7282] tracking-[-0.33px] leading-[14px]">Unleveraged APY</p>
                         <div className="flex items-center gap-[6px]">
                           <p className="text-[16px] font-semibold text-white tracking-[-0.48px] leading-[22px]">
@@ -408,7 +408,7 @@ export default function OpportunitiesTable({
                         </div>
                       </div>
 
-                      <div className="flex-1 flex flex-col gap-[12px]">
+                      <div className="flex-1 flex flex-col gap-[4px]">
                         <p className="text-[11px] font-medium text-[#6a7282] tracking-[-0.33px] leading-[14px]">Leveraged APY</p>
                         <div className="flex items-center gap-[6px]">
                           <svg viewBox="0 0 10 10" fill="none" className="size-[10px] text-[#3ee0ad] flex-shrink-0">
@@ -445,7 +445,7 @@ export default function OpportunitiesTable({
                         {/* Capital Flow Diagram */}
                         <div className="flex items-center">
                           {/* Wallet */}
-                          <div className="flex-1 bg-[rgba(34,36,48,0.5)] px-[12px] md:px-[16px] py-[10px] md:py-[12px] rounded-[6px] md:rounded-[8px] flex flex-col gap-[12px]">
+                          <div className="flex-1 bg-[rgba(34,36,48,0.5)] px-[12px] md:px-[16px] py-[10px] md:py-[12px] rounded-[6px] md:rounded-[8px] flex flex-col gap-[6px] md:gap-[8px]">
                             <div className="flex items-start justify-between flex-col md:flex-row gap-[2px] md:gap-0">
                               <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
                                 Wallet
@@ -467,7 +467,7 @@ export default function OpportunitiesTable({
                           </div>
 
                           {/* Arkis Borrow */}
-                          <div className="flex-1 bg-[rgba(34,36,48,0.5)] px-[12px] md:px-[16px] py-[10px] md:py-[12px] rounded-[6px] md:rounded-[8px] flex flex-col gap-[12px]">
+                          <div className="flex-1 bg-[rgba(34,36,48,0.5)] px-[12px] md:px-[16px] py-[10px] md:py-[12px] rounded-[6px] md:rounded-[8px] flex flex-col gap-[6px] md:gap-[8px]">
                             <div className="flex items-start justify-between flex-col md:flex-row gap-[2px] md:gap-0">
                               <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
                                 Arkis Borrow
@@ -489,7 +489,7 @@ export default function OpportunitiesTable({
                           </div>
 
                           {/* Capital Pool */}
-                          <div className="flex-1 bg-[rgba(34,36,48,0.5)] px-[12px] md:px-[16px] py-[10px] md:py-[12px] rounded-[6px] md:rounded-[8px] flex flex-col gap-[12px]">
+                          <div className="flex-1 bg-[rgba(34,36,48,0.5)] px-[12px] md:px-[16px] py-[10px] md:py-[12px] rounded-[6px] md:rounded-[8px] flex flex-col gap-[6px] md:gap-[8px]">
                             <div className="flex items-start justify-between flex-col md:flex-row gap-[2px] md:gap-0">
                               <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
                                 Capital Pool
