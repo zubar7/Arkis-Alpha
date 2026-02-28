@@ -462,9 +462,13 @@ export default function OpportunitiesTable({
                           {/* Connector */}
                           <div className="flex flex-col items-start px-[4px] w-full">
                             <div className="flex h-[8px] items-center justify-center w-full">
-                              <svg width="100%" height="8" viewBox="0 0 294 8" fill="none" preserveAspectRatio="none">
-                                <path d="M0 0C2.20914 0 4 1.79086 4 4C4 6.20914 2.20914 8 0 8H294C291.791 8 290 6.20914 290 4C290 1.79086 291.791 0 294 0H0Z" fill="rgba(34,36,48,0.5)"/>
-                              </svg>
+                              <div className="-rotate-90 w-full">
+                                <div className="h-[294px] w-full">
+                                  <svg preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 8 294" fill="none">
+                                    <path d="M0 22.1333C0 24.3425 1.79086 26.1333 4 26.1333C6.20914 26.1333 8 24.3425 8 22.1333V0V294V271.867C8 269.658 6.20914 267.867 4 267.867C1.79086 267.867 0 269.658 0 271.867V294V0V22.1333Z" fill="rgba(34,36,48,0.5)"/>
+                                  </svg>
+                                </div>
+                              </div>
                             </div>
                           </div>
 
@@ -486,9 +490,13 @@ export default function OpportunitiesTable({
                           {/* Connector */}
                           <div className="flex flex-col items-start px-[4px] w-full">
                             <div className="flex h-[8px] items-center justify-center w-full">
-                              <svg width="100%" height="8" viewBox="0 0 294 8" fill="none" preserveAspectRatio="none">
-                                <path d="M0 0C2.20914 0 4 1.79086 4 4C4 6.20914 2.20914 8 0 8H294C291.791 8 290 6.20914 290 4C290 1.79086 291.791 0 294 0H0Z" fill="rgba(34,36,48,0.5)"/>
-                              </svg>
+                              <div className="-rotate-90 w-full">
+                                <div className="h-[294px] w-full">
+                                  <svg preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 8 294" fill="none">
+                                    <path d="M0 22.1333C0 24.3425 1.79086 26.1333 4 26.1333C6.20914 26.1333 8 24.3425 8 22.1333V0V294V271.867C8 269.658 6.20914 267.867 4 267.867C1.79086 267.867 0 269.658 0 271.867V294V0V22.1333Z" fill="rgba(34,36,48,0.5)"/>
+                                  </svg>
+                                </div>
+                              </div>
                             </div>
                           </div>
 
