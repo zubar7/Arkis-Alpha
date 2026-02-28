@@ -442,68 +442,72 @@ export default function OpportunitiesTable({
 
                       {/* Expanded Details */}
                       <div className="flex flex-col gap-[16px] pt-[16px] px-[16px] md:px-[24px]">
-                        {/* Capital Flow Diagram */}
-                        <div className="flex items-center">
+                        {/* Capital Flow Diagram - V-Stack */}
+                        <div className="flex flex-col items-stretch w-full">
                           {/* Wallet */}
-                          <div className="flex-1 bg-[rgba(34,36,48,0.5)] px-[12px] md:px-[16px] py-[10px] md:py-[12px] rounded-[6px] md:rounded-[8px] flex flex-col gap-[6px] md:gap-[8px]">
-                            <div className="flex items-start justify-between flex-col md:flex-row gap-[2px] md:gap-0">
-                              <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
+                          <div className="bg-[rgba(34,36,48,0.5)] flex gap-[8px] items-start justify-end px-[16px] py-[12px] rounded-[8px] w-full">
+                            <div className="flex-1 flex flex-col gap-[4px]">
+                              <p className="text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.42px] leading-[16px]">
                                 Wallet
                               </p>
-                              <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
-                                USDC collateral
+                              <p className="text-[20px] font-semibold text-white leading-[28px]">
+                                ${opp.wallet.toFixed(2)}M
                               </p>
                             </div>
-                            <p className="text-[16px] md:text-[20px] font-semibold text-white leading-[22px] md:leading-[28px]">
-                              ${opp.wallet.toFixed(2)}M
+                            <p className="text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.42px] leading-[16px]">
+                              USDC collateral
                             </p>
                           </div>
 
                           {/* Connector */}
-                          <div className="w-[8px] h-[45px]">
-                            <svg preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 8 45" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M0 0C0 2.20914 1.79086 4 4 4C6.20914 4 8 2.20914 8 0V45C8 42.7909 6.20914 41 4 41C1.79086 41 0 42.7909 0 45V0Z" fill="rgba(34,36,48,0.5)"/>
-                            </svg>
+                          <div className="flex flex-col items-start px-[4px] w-full">
+                            <div className="flex h-[8px] items-center justify-center w-full">
+                              <svg width="100%" height="8" viewBox="0 0 294 8" fill="none" preserveAspectRatio="none">
+                                <path d="M0 0C2.20914 0 4 1.79086 4 4C4 6.20914 2.20914 8 0 8H294C291.791 8 290 6.20914 290 4C290 1.79086 291.791 0 294 0H0Z" fill="rgba(34,36,48,0.5)"/>
+                              </svg>
+                            </div>
                           </div>
 
                           {/* Arkis Borrow */}
-                          <div className="flex-1 bg-[rgba(34,36,48,0.5)] px-[12px] md:px-[16px] py-[10px] md:py-[12px] rounded-[6px] md:rounded-[8px] flex flex-col gap-[6px] md:gap-[8px]">
-                            <div className="flex items-start justify-between flex-col md:flex-row gap-[2px] md:gap-0">
-                              <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
+                          <div className="bg-[rgba(34,36,48,0.5)] flex gap-[8px] items-start justify-end px-[16px] py-[12px] rounded-[8px] w-full">
+                            <div className="flex-1 flex flex-col gap-[4px]">
+                              <p className="text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.42px] leading-[16px]">
                                 Arkis Borrow
                               </p>
-                              <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
-                                {opp.arkisBorrow.toFixed(0)}x @ {opp.borrowRate.toFixed(2)}% APR
+                              <p className="text-[20px] font-semibold text-white leading-[28px]">
+                                +${opp.arkisBorrow.toFixed(2)}M
                               </p>
                             </div>
-                            <p className="text-[16px] md:text-[20px] font-semibold text-white leading-[22px] md:leading-[28px]">
-                              +${opp.arkisBorrow.toFixed(2)}M
+                            <p className="text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.42px] leading-[16px]">
+                              {opp.arkisBorrow.toFixed(0)}x @ {opp.borrowRate.toFixed(2)}% APR
                             </p>
                           </div>
 
                           {/* Connector */}
-                          <div className="w-[8px] h-[45px]">
-                            <svg preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 8 45" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M0 0C0 2.20914 1.79086 4 4 4C6.20914 4 8 2.20914 8 0V45C8 42.7909 6.20914 41 4 41C1.79086 41 0 42.7909 0 45V0Z" fill="rgba(34,36,48,0.5)"/>
-                            </svg>
+                          <div className="flex flex-col items-start px-[4px] w-full">
+                            <div className="flex h-[8px] items-center justify-center w-full">
+                              <svg width="100%" height="8" viewBox="0 0 294 8" fill="none" preserveAspectRatio="none">
+                                <path d="M0 0C2.20914 0 4 1.79086 4 4C4 6.20914 2.20914 8 0 8H294C291.791 8 290 6.20914 290 4C290 1.79086 291.791 0 294 0H0Z" fill="rgba(34,36,48,0.5)"/>
+                              </svg>
+                            </div>
                           </div>
 
                           {/* Capital Pool */}
-                          <div className="flex-1 bg-[rgba(34,36,48,0.5)] px-[12px] md:px-[16px] py-[10px] md:py-[12px] rounded-[6px] md:rounded-[8px] flex flex-col gap-[6px] md:gap-[8px]">
-                            <div className="flex items-start justify-between flex-col md:flex-row gap-[2px] md:gap-0">
-                              <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
+                          <div className="bg-[rgba(34,36,48,0.5)] flex gap-[8px] items-start justify-end px-[16px] py-[12px] rounded-[8px] w-full">
+                            <div className="flex-1 flex flex-col gap-[4px]">
+                              <p className="text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.42px] leading-[16px]">
                                 Capital Pool
                               </p>
-                              <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
-                                {activeTab === 'carry-trade'
-                                  ? `${(opp as any).spotPercent}.00% spot / ${(opp as any).marginPercent}.00% margin`
-                                  : 'Split 50 / 50'}
+                              <p className="text-[20px] font-semibold text-white leading-[28px]">
+                                ${activeTab === 'carry-trade'
+                                  ? (opp as any).capitalPool.toFixed(2)
+                                  : (opp.wallet + opp.arkisBorrow).toFixed(2)}M
                               </p>
                             </div>
-                            <p className="text-[16px] md:text-[20px] font-semibold text-white leading-[22px] md:leading-[28px]">
-                              ${activeTab === 'carry-trade'
-                                ? (opp as any).capitalPool.toFixed(2)
-                                : (opp.wallet + opp.arkisBorrow).toFixed(2)}M
+                            <p className="text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.42px] leading-[16px]">
+                              {activeTab === 'carry-trade'
+                                ? `${(opp as any).spotPercent}.00% spot / ${(opp as any).marginPercent}.00% margin`
+                                : 'Split 50 / 50'}
                             </p>
                           </div>
                         </div>
@@ -974,68 +978,72 @@ export default function OpportunitiesTable({
 
                   {/* Expanded Details */}
                   <div className="flex flex-col gap-[16px] pt-[16px] px-[16px] md:px-[24px]">
-                    {/* Capital Flow Diagram */}
-                    <div className="flex items-center">
+                    {/* Capital Flow Diagram - V-Stack */}
+                    <div className="flex flex-col items-stretch w-full">
                       {/* Wallet */}
-                      <div className="flex-1 bg-[rgba(34,36,48,0.5)] px-[12px] md:px-[16px] py-[10px] md:py-[12px] rounded-[6px] md:rounded-[8px] flex flex-col gap-[6px] md:gap-[8px]">
-                        <div className="flex items-start justify-between flex-col md:flex-row gap-[2px] md:gap-0">
-                          <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
+                      <div className="bg-[rgba(34,36,48,0.5)] flex gap-[8px] items-start justify-end px-[16px] py-[12px] rounded-[8px] w-full">
+                        <div className="flex-1 flex flex-col gap-[4px]">
+                          <p className="text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.42px] leading-[16px]">
                             Wallet
                           </p>
-                          <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
-                            USDC collateral
+                          <p className="text-[20px] font-semibold text-white leading-[28px]">
+                            ${opp.wallet.toFixed(2)}M
                           </p>
                         </div>
-                        <p className="text-[16px] md:text-[20px] font-semibold text-white leading-[22px] md:leading-[28px]">
-                          ${opp.wallet.toFixed(2)}M
+                        <p className="text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.42px] leading-[16px]">
+                          USDC collateral
                         </p>
                       </div>
 
                       {/* Connector */}
-                      <div className="w-[8px] h-[45px]">
-                        <svg preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 8 45" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M0 0C0 2.20914 1.79086 4 4 4C6.20914 4 8 2.20914 8 0V45C8 42.7909 6.20914 41 4 41C1.79086 41 0 42.7909 0 45V0Z" fill="rgba(34,36,48,0.5)"/>
-                        </svg>
+                      <div className="flex flex-col items-start px-[4px] w-full">
+                        <div className="flex h-[8px] items-center justify-center w-full">
+                          <svg width="100%" height="8" viewBox="0 0 294 8" fill="none" preserveAspectRatio="none">
+                            <path d="M0 0C2.20914 0 4 1.79086 4 4C4 6.20914 2.20914 8 0 8H294C291.791 8 290 6.20914 290 4C290 1.79086 291.791 0 294 0H0Z" fill="rgba(34,36,48,0.5)"/>
+                          </svg>
+                        </div>
                       </div>
 
                       {/* Arkis Borrow */}
-                      <div className="flex-1 bg-[rgba(34,36,48,0.5)] px-[12px] md:px-[16px] py-[10px] md:py-[12px] rounded-[6px] md:rounded-[8px] flex flex-col gap-[6px] md:gap-[8px]">
-                        <div className="flex items-start justify-between flex-col md:flex-row gap-[2px] md:gap-0">
-                          <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
+                      <div className="bg-[rgba(34,36,48,0.5)] flex gap-[8px] items-start justify-end px-[16px] py-[12px] rounded-[8px] w-full">
+                        <div className="flex-1 flex flex-col gap-[4px]">
+                          <p className="text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.42px] leading-[16px]">
                             Arkis Borrow
                           </p>
-                          <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
-                            {opp.arkisBorrow.toFixed(0)}x @ {opp.borrowRate.toFixed(2)}% APR
+                          <p className="text-[20px] font-semibold text-white leading-[28px]">
+                            +${opp.arkisBorrow.toFixed(2)}M
                           </p>
                         </div>
-                        <p className="text-[16px] md:text-[20px] font-semibold text-white leading-[22px] md:leading-[28px]">
-                          +${opp.arkisBorrow.toFixed(2)}M
+                        <p className="text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.42px] leading-[16px]">
+                          {opp.arkisBorrow.toFixed(0)}x @ {opp.borrowRate.toFixed(2)}% APR
                         </p>
                       </div>
 
                       {/* Connector */}
-                      <div className="w-[8px] h-[45px]">
-                        <svg preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 8 45" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M0 0C0 2.20914 1.79086 4 4 4C6.20914 4 8 2.20914 8 0V45C8 42.7909 6.20914 41 4 41C1.79086 41 0 42.7909 0 45V0Z" fill="rgba(34,36,48,0.5)"/>
-                        </svg>
+                      <div className="flex flex-col items-start px-[4px] w-full">
+                        <div className="flex h-[8px] items-center justify-center w-full">
+                          <svg width="100%" height="8" viewBox="0 0 294 8" fill="none" preserveAspectRatio="none">
+                            <path d="M0 0C2.20914 0 4 1.79086 4 4C4 6.20914 2.20914 8 0 8H294C291.791 8 290 6.20914 290 4C290 1.79086 291.791 0 294 0H0Z" fill="rgba(34,36,48,0.5)"/>
+                          </svg>
+                        </div>
                       </div>
 
                       {/* Capital Pool */}
-                      <div className="flex-1 bg-[rgba(34,36,48,0.5)] px-[12px] md:px-[16px] py-[10px] md:py-[12px] rounded-[6px] md:rounded-[8px] flex flex-col gap-[6px] md:gap-[8px]">
-                        <div className="flex items-start justify-between flex-col md:flex-row gap-[2px] md:gap-0">
-                          <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
+                      <div className="bg-[rgba(34,36,48,0.5)] flex gap-[8px] items-start justify-end px-[16px] py-[12px] rounded-[8px] w-full">
+                        <div className="flex-1 flex flex-col gap-[4px]">
+                          <p className="text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.42px] leading-[16px]">
                             Capital Pool
                           </p>
-                          <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
-                            {activeTab === 'carry-trade'
-                              ? `${(opp as any).spotPercent}.00% spot / ${(opp as any).marginPercent}.00% margin`
-                              : 'Split 50 / 50'}
+                          <p className="text-[20px] font-semibold text-white leading-[28px]">
+                            ${activeTab === 'carry-trade'
+                              ? (opp as any).capitalPool.toFixed(2)
+                              : (opp.wallet + opp.arkisBorrow).toFixed(2)}M
                           </p>
                         </div>
-                        <p className="text-[16px] md:text-[20px] font-semibold text-white leading-[22px] md:leading-[28px]">
-                          ${activeTab === 'carry-trade'
-                            ? (opp as any).capitalPool.toFixed(2)
-                            : (opp.wallet + opp.arkisBorrow).toFixed(2)}M
+                        <p className="text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.42px] leading-[16px]">
+                          {activeTab === 'carry-trade'
+                            ? `${(opp as any).spotPercent}.00% spot / ${(opp as any).marginPercent}.00% margin`
+                            : 'Split 50 / 50'}
                         </p>
                       </div>
                     </div>
