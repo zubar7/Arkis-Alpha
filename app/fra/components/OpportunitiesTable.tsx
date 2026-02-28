@@ -928,7 +928,7 @@ export default function OpportunitiesTable({
 
                 {/* APY Section */}
                 <div className="flex items-center gap-[16px] pt-[4px]">
-                  <div className="flex-1 flex flex-col gap-[4px]">
+                  <div className="flex-1 flex flex-col gap-[12px]">
                     <p className="text-[11px] font-medium text-[#6a7282] tracking-[-0.33px] leading-[14px]">Unleveraged APY</p>
                     <div className="flex items-center gap-[6px]">
                       <p className="text-[16px] font-semibold text-white tracking-[-0.48px] leading-[22px]">
@@ -940,7 +940,7 @@ export default function OpportunitiesTable({
                     </div>
                   </div>
 
-                  <div className="flex-1 flex flex-col gap-[4px]">
+                  <div className="flex-1 flex flex-col gap-[12px]">
                     <p className="text-[11px] font-medium text-[#6a7282] tracking-[-0.33px] leading-[14px]">Leveraged APY</p>
                     <div className="flex items-center gap-[6px]">
                       <svg viewBox="0 0 10 10" fill="none" className="size-[10px] text-[#3ee0ad] flex-shrink-0">
