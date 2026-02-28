@@ -255,10 +255,10 @@ export default function OpportunitiesTable({
                       : 'bg-[#222430]'
                   }`}
                 >
-                  {/* Main Row */}
+                  {/* Main Row - Desktop */}
                   <div
                     onClick={() => toggleRow(opp.id)}
-                    className={`flex items-center h-[64px] px-[24px] py-[20px] cursor-pointer rounded-[12px] ${
+                    className={`hidden md:flex items-center h-[64px] px-[24px] py-[20px] cursor-pointer rounded-[12px] ${
                       isExpanded ? 'bg-[#323444]' : 'bg-[#222430]'
                     }`}
                   >
@@ -274,7 +274,6 @@ export default function OpportunitiesTable({
                       </button>
                     </div>
 
-                    {/* Rest of the row content - reused from below */}
                     {/* Long Exchange */}
                     <div className="flex-1 flex items-center gap-[8px]">
                       <div className="size-[24px] rounded-full overflow-hidden">
@@ -313,23 +312,115 @@ export default function OpportunitiesTable({
 
                     {/* Unleveraged APY */}
                     <div className="flex-1 flex items-center">
-                      <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px]">
-                        {opp.unleveredAPY.toFixed(2)}%
-                      </p>
+                      <div className="flex items-center gap-[6px]">
+                        <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px]">
+                          {opp.unleveredAPY.toFixed(2)}%
+                        </p>
+                        <div className="px-[6px] py-[2px] rounded-[4px] bg-[#F2DD60]/10">
+                          <p className="text-[10px] font-medium text-[#F2DD60] tracking-[-0.3px] leading-[14px]">Default</p>
+                        </div>
+                      </div>
                     </div>
 
                     {/* Leveraged APY */}
                     <div className="flex-1 flex items-center">
-                      <div className="flex items-center gap-[12px] max-w-[164px] w-full">
-                        <div className="flex-1 h-[4px] bg-[rgba(106,114,130,0.5)] rounded-[8px] overflow-hidden">
-                          <div
-                            className={`h-full rounded-[8px] ${opp.leveredAPY < 25 ? 'bg-[#F2DD60]' : 'bg-[#3EE0AD]'}`}
-                            style={{ width: `${Math.min((opp.leveredAPY / 50) * 100, 100)}%` }}
-                          />
-                        </div>
+                      <div className="flex items-center gap-[8px]">
+                        <svg viewBox="0 0 10 10" fill="none" className="size-[10px] text-[#3ee0ad] flex-shrink-0">
+                          <path d="M5 0L5.80902 3.45492C5.93945 4.03483 6.42157 4.46517 7.01492 4.53197L10 5L7.01492 5.46803C6.42157 5.53483 5.93945 5.96517 5.80902 6.54508L5 10L4.19098 6.54508C4.06055 5.96517 3.57843 5.53483 2.98508 5.46803L0 5L2.98508 4.53197C3.57843 4.46517 4.06055 4.03483 4.19098 3.45492L5 0Z" fill="currentColor"/>
+                        </svg>
                         <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px]">
                           {opp.leveredAPY.toFixed(1)}%
                         </p>
+                        <div className="px-[6px] py-[2px] rounded-[4px] bg-[#3ee0ad]/10">
+                          <p className="text-[10px] font-medium text-[#3ee0ad] tracking-[-0.3px] leading-[14px]">Multiplied</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Main Card - Mobile */}
+                  <div
+                    onClick={() => toggleRow(opp.id)}
+                    className={`md:hidden flex flex-col gap-[12px] p-[16px] cursor-pointer rounded-[12px] ${
+                      isExpanded ? 'bg-[#323444]' : 'bg-[#222430]'
+                    }`}
+                  >
+                    {/* Long/Short Section - H-Stack */}
+                    <div className="flex items-start gap-[16px]">
+                      {/* Long Section */}
+                      <div className="flex-1 flex flex-col gap-[12px]">
+                        <p className="text-[11px] font-medium text-[#6a7282] tracking-[-0.33px] leading-[14px]">Long</p>
+                        <div className="flex items-center gap-[8px]">
+                          <div className="size-[20px] rounded-full overflow-hidden flex-shrink-0">
+                            <img
+                              src={(opp as any).long.asset ? `/icons/tokens/${(opp as any).long.asset.toLowerCase().replace(/ /g, '')}.png` : exchangeIcons[(opp as any).long.exchange]}
+                              alt={(opp as any).long.asset || (opp as any).long.exchange}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="flex items-center gap-[6px] min-w-0">
+                            <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px] truncate">
+                              {(opp as any).long.asset || (opp as any).long.pair}
+                            </p>
+                            <p className="text-[12px] font-medium text-[#6a7282] tracking-[-0.36px] leading-[16px] truncate">
+                              {(opp as any).long.asset
+                                ? ((opp as any).long.asset !== 'Naked Spot' && (opp as any).long.platform)
+                                : ((opp as any).long.exchange?.charAt(0) + (opp as any).long.exchange?.slice(1).toLowerCase())}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Short Section */}
+                      <div className="flex-1 flex flex-col gap-[12px]">
+                        <p className="text-[11px] font-medium text-[#6a7282] tracking-[-0.33px] leading-[14px]">Short</p>
+                        <div className="flex items-center gap-[8px]">
+                          <div className="size-[20px] rounded-full overflow-hidden flex-shrink-0">
+                            <img
+                              src={exchangeIcons[(opp as any).short.exchange]}
+                              alt={(opp as any).short.exchange}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="flex items-center gap-[6px] min-w-0">
+                            <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px] truncate">
+                              {(opp as any).short.pair}
+                            </p>
+                            <p className="text-[12px] font-medium text-[#6a7282] tracking-[-0.36px] leading-[16px] truncate">
+                              {(opp as any).short.exchange.charAt(0) + (opp as any).short.exchange.slice(1).toLowerCase()}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* APY Section */}
+                    <div className="flex items-center gap-[16px] pt-[4px]">
+                      <div className="flex-1 flex flex-col gap-[4px]">
+                        <p className="text-[11px] font-medium text-[#6a7282] tracking-[-0.33px] leading-[14px]">Unleveraged APY</p>
+                        <div className="flex items-center gap-[6px]">
+                          <p className="text-[16px] font-semibold text-white tracking-[-0.48px] leading-[22px]">
+                            {opp.unleveredAPY.toFixed(2)}%
+                          </p>
+                          <div className="px-[6px] py-[2px] rounded-[4px] bg-[#F2DD60]/10">
+                            <p className="text-[10px] font-medium text-[#F2DD60] tracking-[-0.3px] leading-[14px]">Default</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex-1 flex flex-col gap-[4px]">
+                        <p className="text-[11px] font-medium text-[#6a7282] tracking-[-0.33px] leading-[14px]">Leveraged APY</p>
+                        <div className="flex items-center gap-[6px]">
+                          <svg viewBox="0 0 10 10" fill="none" className="size-[10px] text-[#3ee0ad] flex-shrink-0">
+                            <path d="M5 0L5.80902 3.45492C5.93945 4.03483 6.42157 4.46517 7.01492 4.53197L10 5L7.01492 5.46803C6.42157 5.53483 5.93945 5.96517 5.80902 6.54508L5 10L4.19098 6.54508C4.06055 5.96517 3.57843 5.53483 2.98508 5.46803L0 5L2.98508 4.53197C3.57843 4.46517 4.06055 4.03483 4.19098 3.45492L5 0Z" fill="currentColor"/>
+                          </svg>
+                          <p className="text-[16px] font-semibold text-white tracking-[-0.48px] leading-[22px]">
+                            {opp.leveredAPY.toFixed(1)}%
+                          </p>
+                          <div className="px-[6px] py-[2px] rounded-[4px] bg-[#3ee0ad]/10">
+                            <p className="text-[10px] font-medium text-[#3ee0ad] tracking-[-0.3px] leading-[14px]">Multiplied</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -338,7 +429,7 @@ export default function OpportunitiesTable({
                   <div
                     className="overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
                     style={{
-                      maxHeight: isExpanded ? '800px' : '0px',
+                      maxHeight: isExpanded ? '1400px' : '0px',
                       opacity: isExpanded ? 1 : 0,
                     }}
                   >
@@ -347,23 +438,23 @@ export default function OpportunitiesTable({
                       style={{ opacity: isExpanded ? 1 : 0 }}
                     >
                       {/* Divider */}
-                      <div className="h-[1px] bg-gradient-to-r from-transparent via-[rgba(255,255,255,0.05)] to-transparent mx-[24px]" />
+                      <div className="h-[1px] bg-gradient-to-r from-transparent via-[rgba(255,255,255,0.05)] to-transparent mx-[16px] md:mx-[24px]" />
 
                       {/* Expanded Details */}
-                      <div className="flex flex-col gap-[16px] pt-[16px] px-[24px]">
+                      <div className="flex flex-col gap-[16px] pt-[16px] px-[16px] md:px-[24px]">
                         {/* Capital Flow Diagram */}
                         <div className="flex items-center">
                           {/* Wallet */}
-                          <div className="flex-1 bg-[rgba(34,36,48,0.5)] px-[16px] py-[12px] rounded-[8px] flex flex-col gap-[8px]">
-                            <div className="flex items-start justify-between">
-                              <p className="text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.42px] leading-[16px]">
+                          <div className="flex-1 bg-[rgba(34,36,48,0.5)] px-[12px] md:px-[16px] py-[10px] md:py-[12px] rounded-[6px] md:rounded-[8px] flex flex-col gap-[6px] md:gap-[8px]">
+                            <div className="flex items-start justify-between flex-col md:flex-row gap-[2px] md:gap-0">
+                              <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
                                 Wallet
                               </p>
-                              <p className="text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.42px] leading-[16px]">
+                              <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
                                 USDC collateral
                               </p>
                             </div>
-                            <p className="text-[20px] font-semibold text-white leading-[28px]">
+                            <p className="text-[16px] md:text-[20px] font-semibold text-white leading-[22px] md:leading-[28px]">
                               ${opp.wallet.toFixed(2)}M
                             </p>
                           </div>
@@ -376,16 +467,16 @@ export default function OpportunitiesTable({
                           </div>
 
                           {/* Arkis Borrow */}
-                          <div className="flex-1 bg-[rgba(34,36,48,0.5)] px-[16px] py-[12px] rounded-[8px] flex flex-col gap-[8px]">
-                            <div className="flex items-start justify-between">
-                              <p className="text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.42px] leading-[16px]">
+                          <div className="flex-1 bg-[rgba(34,36,48,0.5)] px-[12px] md:px-[16px] py-[10px] md:py-[12px] rounded-[6px] md:rounded-[8px] flex flex-col gap-[6px] md:gap-[8px]">
+                            <div className="flex items-start justify-between flex-col md:flex-row gap-[2px] md:gap-0">
+                              <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
                                 Arkis Borrow
                               </p>
-                              <p className="text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.42px] leading-[16px]">
+                              <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
                                 {opp.arkisBorrow.toFixed(0)}x @ {opp.borrowRate.toFixed(2)}% APR
                               </p>
                             </div>
-                            <p className="text-[20px] font-semibold text-white leading-[28px]">
+                            <p className="text-[16px] md:text-[20px] font-semibold text-white leading-[22px] md:leading-[28px]">
                               +${opp.arkisBorrow.toFixed(2)}M
                             </p>
                           </div>
@@ -398,18 +489,18 @@ export default function OpportunitiesTable({
                           </div>
 
                           {/* Capital Pool */}
-                          <div className="flex-1 bg-[rgba(34,36,48,0.5)] px-[16px] py-[12px] rounded-[8px] flex flex-col gap-[8px]">
-                            <div className="flex items-start justify-between">
-                              <p className="text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.42px] leading-[16px]">
+                          <div className="flex-1 bg-[rgba(34,36,48,0.5)] px-[12px] md:px-[16px] py-[10px] md:py-[12px] rounded-[6px] md:rounded-[8px] flex flex-col gap-[6px] md:gap-[8px]">
+                            <div className="flex items-start justify-between flex-col md:flex-row gap-[2px] md:gap-0">
+                              <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
                                 Capital Pool
                               </p>
-                              <p className="text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.42px] leading-[16px]">
+                              <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
                                 {activeTab === 'carry-trade'
                                   ? `${(opp as any).spotPercent}.00% spot / ${(opp as any).marginPercent}.00% margin`
                                   : 'Split 50 / 50'}
                               </p>
                             </div>
-                            <p className="text-[20px] font-semibold text-white leading-[28px]">
+                            <p className="text-[16px] md:text-[20px] font-semibold text-white leading-[22px] md:leading-[28px]">
                               ${activeTab === 'carry-trade'
                                 ? (opp as any).capitalPool.toFixed(2)
                                 : (opp.wallet + opp.arkisBorrow).toFixed(2)}M
@@ -418,7 +509,7 @@ export default function OpportunitiesTable({
                         </div>
 
                         {/* Position Cards */}
-                        <div className="flex gap-[16px]">
+                        <div className="flex flex-col md:flex-row gap-[12px] md:gap-[16px]">
                           {activeTab === 'carry-trade' ? (
                             <>
                               {/* Left Card - Asset (Carry Trade) */}
@@ -607,43 +698,51 @@ export default function OpportunitiesTable({
                       </div>
 
                       {/* Footer Row */}
-                      <div className="flex items-center justify-between px-[24px] py-[20px] rounded-[12px]">
+                      <div className="flex flex-col md:flex-row items-start md:items-center justify-between px-[16px] md:px-[24px] py-[16px] md:py-[20px] rounded-[12px] gap-[12px] md:gap-0">
                         {activeTab === 'carry-trade' ? (
                           <>
-                            <div className="flex items-center gap-[16px]">
+                            <div className="flex flex-col md:flex-row items-start md:items-center gap-[8px] md:gap-[16px] w-full md:w-auto">
                               <div className="flex items-center gap-[8px]">
-                                <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[20px]">Staking Yield</p>
+                                <p className="text-[12px] md:text-[14px] font-medium text-[#6a7282] tracking-[-0.36px] md:tracking-[-0.42px] leading-[16px] md:leading-[20px]">Staking Yield</p>
                                 <p className="text-[14px] font-medium text-[#3ee0ad] tracking-[-0.42px] leading-[20px]">{(opp as any).stakingYield.toFixed(2)}%</p>
                               </div>
                               <div className="flex items-center gap-[8px]">
-                                <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[20px]">Funding Collected</p>
+                                <p className="text-[12px] md:text-[14px] font-medium text-[#6a7282] tracking-[-0.36px] md:tracking-[-0.42px] leading-[16px] md:leading-[20px]">Funding Collected</p>
                                 <p className="text-[14px] font-medium text-[#3ee0ad] tracking-[-0.42px] leading-[20px]">{(opp as any).fundingCollected.toFixed(2)}%</p>
                               </div>
                               <div className="flex items-center gap-[8px]">
-                                <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[20px]">Borrow Cost</p>
-                                <p className="text-[14px] font-medium text-[#ff6060] tracking-[-0.42px] leading-[20px]">-${(opp as any).borrowCostYearly}K/yr</p>
+                                <p className="text-[12px] md:text-[14px] font-medium text-[#6a7282] tracking-[-0.36px] md:tracking-[-0.42px] leading-[16px] md:leading-[20px]">Borrow Cost</p>
+                                <p className="text-[14px] font-medium text-[#ff6060] tracking-[-0.42px] leading-[20px]">~${(opp as any).borrowCostYearly}K/yr</p>
                               </div>
                             </div>
+                            {/* Divider - Desktop only */}
+                            <div className="hidden md:block w-[1px] h-[20px] bg-[rgba(255,255,255,0.1)]"></div>
+                            {/* Divider - Mobile */}
+                            <div className="md:hidden w-full h-[1px] bg-[rgba(255,255,255,0.1)]"></div>
                             <div className="flex items-center gap-[8px]">
-                              <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[20px]">Leveraged APY</p>
-                              <p className="text-[14px] font-medium text-[#3ee0ad] tracking-[-0.42px] leading-[20px]">{(opp as any).leveredAPYFooter.toFixed(2)}%</p>
+                              <p className="text-[12px] md:text-[14px] font-medium text-[#6a7282] tracking-[-0.36px] md:tracking-[-0.42px] leading-[16px] md:leading-[20px]">Leveraged APY</p>
+                              <p className="text-[14px] md:text-[14px] font-semibold md:font-medium text-[#3ee0ad] tracking-[-0.42px] leading-[20px]">{(opp as any).leveredAPYFooter.toFixed(2)}%</p>
                             </div>
                           </>
                         ) : (
                           <>
-                            <div className="flex items-center gap-[16px]">
+                            <div className="flex flex-col md:flex-row items-start md:items-center gap-[8px] md:gap-[16px] w-full md:w-auto">
                               <div className="flex items-center gap-[8px]">
-                                <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[20px]">Net Funding Spread</p>
+                                <p className="text-[12px] md:text-[14px] font-medium text-[#6a7282] tracking-[-0.36px] md:tracking-[-0.42px] leading-[16px] md:leading-[20px]">Net Funding Spread</p>
                                 <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px]">{(opp as any).netFundingSpread.toFixed(2)}%</p>
                               </div>
                               <div className="flex items-center gap-[8px]">
-                                <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[20px]">Borrow Cost</p>
-                                <p className="text-[14px] font-medium text-[#ff6060] tracking-[-0.42px] leading-[20px]">-${opp.borrowCostYearly}K/yr</p>
+                                <p className="text-[12px] md:text-[14px] font-medium text-[#6a7282] tracking-[-0.36px] md:tracking-[-0.42px] leading-[16px] md:leading-[20px]">Borrow Cost</p>
+                                <p className="text-[14px] font-medium text-[#ff6060] tracking-[-0.42px] leading-[20px]">~${opp.borrowCostYearly}K/yr</p>
                               </div>
                             </div>
+                            {/* Divider - Desktop only */}
+                            <div className="hidden md:block w-[1px] h-[20px] bg-[rgba(255,255,255,0.1)]"></div>
+                            {/* Divider - Mobile */}
+                            <div className="md:hidden w-full h-[1px] bg-[rgba(255,255,255,0.1)]"></div>
                             <div className="flex items-center gap-[8px]">
-                              <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[20px]">Leveraged APY</p>
-                              <p className="text-[14px] font-medium text-[#3ee0ad] tracking-[-0.42px] leading-[20px]">{opp.leveredAPY.toFixed(2)}%</p>
+                              <p className="text-[12px] md:text-[14px] font-medium text-[#6a7282] tracking-[-0.36px] md:tracking-[-0.42px] leading-[16px] md:leading-[20px]">Leveraged APY</p>
+                              <p className="text-[14px] md:text-[14px] font-semibold md:font-medium text-[#3ee0ad] tracking-[-0.42px] leading-[20px]">{opp.leveredAPY.toFixed(2)}%</p>
                             </div>
                           </>
                         )}
@@ -682,10 +781,10 @@ export default function OpportunitiesTable({
                   : 'bg-[#222430]'
               }`}
             >
-              {/* Main Row */}
+              {/* Main Row - Desktop */}
               <div
                 onClick={() => toggleRow(opp.id)}
-                className={`flex items-center h-[64px] px-[24px] py-[20px] cursor-pointer rounded-[12px] ${
+                className={`hidden md:flex items-center h-[64px] px-[24px] py-[20px] cursor-pointer rounded-[12px] ${
                   isExpanded ? 'bg-[#323444]' : 'bg-[#222430]'
                 }`}
               >
@@ -745,23 +844,115 @@ export default function OpportunitiesTable({
 
                 {/* Unleveraged APY */}
                 <div className="flex-1 flex items-center">
-                  <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px]">
-                    {opp.unleveredAPY.toFixed(2)}%
-                  </p>
+                  <div className="flex items-center gap-[6px]">
+                    <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px]">
+                      {opp.unleveredAPY.toFixed(2)}%
+                    </p>
+                    <div className="px-[6px] py-[2px] rounded-[4px] bg-[#F2DD60]/10">
+                      <p className="text-[10px] font-medium text-[#F2DD60] tracking-[-0.3px] leading-[14px]">Default</p>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Leveraged APY */}
                 <div className="flex-1 flex items-center">
-                  <div className="flex items-center gap-[12px] max-w-[164px] w-full">
-                    <div className="flex-1 h-[4px] bg-[rgba(106,114,130,0.5)] rounded-[8px] overflow-hidden">
-                      <div
-                        className={`h-full rounded-[8px] ${opp.leveredAPY < 25 ? 'bg-[#F2DD60]' : 'bg-[#3EE0AD]'}`}
-                        style={{ width: `${Math.min((opp.leveredAPY / 50) * 100, 100)}%` }}
-                      />
-                    </div>
+                  <div className="flex items-center gap-[8px]">
+                    <svg viewBox="0 0 10 10" fill="none" className="size-[10px] text-[#3ee0ad] flex-shrink-0">
+                      <path d="M5 0L5.80902 3.45492C5.93945 4.03483 6.42157 4.46517 7.01492 4.53197L10 5L7.01492 5.46803C6.42157 5.53483 5.93945 5.96517 5.80902 6.54508L5 10L4.19098 6.54508C4.06055 5.96517 3.57843 5.53483 2.98508 5.46803L0 5L2.98508 4.53197C3.57843 4.46517 4.06055 4.03483 4.19098 3.45492L5 0Z" fill="currentColor"/>
+                    </svg>
                     <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px]">
                       {opp.leveredAPY.toFixed(1)}%
                     </p>
+                    <div className="px-[6px] py-[2px] rounded-[4px] bg-[#3ee0ad]/10">
+                      <p className="text-[10px] font-medium text-[#3ee0ad] tracking-[-0.3px] leading-[14px]">Multiplied</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Main Card - Mobile */}
+              <div
+                onClick={() => toggleRow(opp.id)}
+                className={`md:hidden flex flex-col gap-[12px] p-[16px] cursor-pointer rounded-[12px] ${
+                  isExpanded ? 'bg-[#323444]' : 'bg-[#222430]'
+                }`}
+              >
+                {/* Long/Short Section - H-Stack */}
+                <div className="flex items-start gap-[16px]">
+                  {/* Long Section */}
+                  <div className="flex-1 flex flex-col gap-[12px]">
+                    <p className="text-[11px] font-medium text-[#6a7282] tracking-[-0.33px] leading-[14px]">Long</p>
+                    <div className="flex items-center gap-[8px]">
+                      <div className="size-[20px] rounded-full overflow-hidden flex-shrink-0">
+                        <img
+                          src={(opp as any).long.asset ? `/icons/tokens/${(opp as any).long.asset.toLowerCase().replace(/ /g, '')}.png` : exchangeIcons[(opp as any).long.exchange]}
+                          alt={(opp as any).long.asset || (opp as any).long.exchange}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="flex items-center gap-[6px] min-w-0">
+                        <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px] truncate">
+                          {(opp as any).long.asset || (opp as any).long.pair}
+                        </p>
+                        <p className="text-[12px] font-medium text-[#6a7282] tracking-[-0.36px] leading-[16px] truncate">
+                          {(opp as any).long.asset
+                            ? ((opp as any).long.asset !== 'Naked Spot' && (opp as any).long.platform)
+                            : ((opp as any).long.exchange?.charAt(0) + (opp as any).long.exchange?.slice(1).toLowerCase())}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Short Section */}
+                  <div className="flex-1 flex flex-col gap-[12px]">
+                    <p className="text-[11px] font-medium text-[#6a7282] tracking-[-0.33px] leading-[14px]">Short</p>
+                    <div className="flex items-center gap-[8px]">
+                      <div className="size-[20px] rounded-full overflow-hidden flex-shrink-0">
+                        <img
+                          src={exchangeIcons[(opp as any).short.exchange]}
+                          alt={(opp as any).short.exchange}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="flex items-center gap-[6px] min-w-0">
+                        <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px] truncate">
+                          {(opp as any).short.pair}
+                        </p>
+                        <p className="text-[12px] font-medium text-[#6a7282] tracking-[-0.36px] leading-[16px] truncate">
+                          {(opp as any).short.exchange.charAt(0) + (opp as any).short.exchange.slice(1).toLowerCase()}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* APY Section */}
+                <div className="flex items-center gap-[16px] pt-[4px]">
+                  <div className="flex-1 flex flex-col gap-[4px]">
+                    <p className="text-[11px] font-medium text-[#6a7282] tracking-[-0.33px] leading-[14px]">Unleveraged APY</p>
+                    <div className="flex items-center gap-[6px]">
+                      <p className="text-[16px] font-semibold text-white tracking-[-0.48px] leading-[22px]">
+                        {opp.unleveredAPY.toFixed(2)}%
+                      </p>
+                      <div className="px-[6px] py-[2px] rounded-[4px] bg-[#F2DD60]/10">
+                        <p className="text-[10px] font-medium text-[#F2DD60] tracking-[-0.3px] leading-[14px]">Default</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex-1 flex flex-col gap-[4px]">
+                    <p className="text-[11px] font-medium text-[#6a7282] tracking-[-0.33px] leading-[14px]">Leveraged APY</p>
+                    <div className="flex items-center gap-[6px]">
+                      <svg viewBox="0 0 10 10" fill="none" className="size-[10px] text-[#3ee0ad] flex-shrink-0">
+                        <path d="M5 0L5.80902 3.45492C5.93945 4.03483 6.42157 4.46517 7.01492 4.53197L10 5L7.01492 5.46803C6.42157 5.53483 5.93945 5.96517 5.80902 6.54508L5 10L4.19098 6.54508C4.06055 5.96517 3.57843 5.53483 2.98508 5.46803L0 5L2.98508 4.53197C3.57843 4.46517 4.06055 4.03483 4.19098 3.45492L5 0Z" fill="currentColor"/>
+                      </svg>
+                      <p className="text-[16px] font-semibold text-white tracking-[-0.48px] leading-[22px]">
+                        {opp.leveredAPY.toFixed(1)}%
+                      </p>
+                      <div className="px-[6px] py-[2px] rounded-[4px] bg-[#3ee0ad]/10">
+                        <p className="text-[10px] font-medium text-[#3ee0ad] tracking-[-0.3px] leading-[14px]">Multiplied</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -770,7 +961,7 @@ export default function OpportunitiesTable({
               <div
                 className="overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
                 style={{
-                  maxHeight: isExpanded ? '800px' : '0px',
+                  maxHeight: isExpanded ? '1400px' : '0px',
                   opacity: isExpanded ? 1 : 0,
                 }}
               >
@@ -782,20 +973,20 @@ export default function OpportunitiesTable({
                   <div className="h-[1px] bg-gradient-to-r from-transparent via-[rgba(255,255,255,0.05)] to-transparent mx-[24px]" />
 
                   {/* Expanded Details */}
-                  <div className="flex flex-col gap-[16px] pt-[16px] px-[24px]">
+                  <div className="flex flex-col gap-[16px] pt-[16px] px-[16px] md:px-[24px]">
                     {/* Capital Flow Diagram */}
                     <div className="flex items-center">
                       {/* Wallet */}
-                      <div className="flex-1 bg-[rgba(34,36,48,0.5)] px-[16px] py-[12px] rounded-[8px] flex flex-col gap-[8px]">
-                        <div className="flex items-start justify-between">
-                          <p className="text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.42px] leading-[16px]">
+                      <div className="flex-1 bg-[rgba(34,36,48,0.5)] px-[12px] md:px-[16px] py-[10px] md:py-[12px] rounded-[6px] md:rounded-[8px] flex flex-col gap-[6px] md:gap-[8px]">
+                        <div className="flex items-start justify-between flex-col md:flex-row gap-[2px] md:gap-0">
+                          <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
                             Wallet
                           </p>
-                          <p className="text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.42px] leading-[16px]">
+                          <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
                             USDC collateral
                           </p>
                         </div>
-                        <p className="text-[20px] font-semibold text-white leading-[28px]">
+                        <p className="text-[16px] md:text-[20px] font-semibold text-white leading-[22px] md:leading-[28px]">
                           ${opp.wallet.toFixed(2)}M
                         </p>
                       </div>
@@ -808,16 +999,16 @@ export default function OpportunitiesTable({
                       </div>
 
                       {/* Arkis Borrow */}
-                      <div className="flex-1 bg-[rgba(34,36,48,0.5)] px-[16px] py-[12px] rounded-[8px] flex flex-col gap-[8px]">
-                        <div className="flex items-start justify-between">
-                          <p className="text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.42px] leading-[16px]">
+                      <div className="flex-1 bg-[rgba(34,36,48,0.5)] px-[12px] md:px-[16px] py-[10px] md:py-[12px] rounded-[6px] md:rounded-[8px] flex flex-col gap-[6px] md:gap-[8px]">
+                        <div className="flex items-start justify-between flex-col md:flex-row gap-[2px] md:gap-0">
+                          <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
                             Arkis Borrow
                           </p>
-                          <p className="text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.42px] leading-[16px]">
+                          <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
                             {opp.arkisBorrow.toFixed(0)}x @ {opp.borrowRate.toFixed(2)}% APR
                           </p>
                         </div>
-                        <p className="text-[20px] font-semibold text-white leading-[28px]">
+                        <p className="text-[16px] md:text-[20px] font-semibold text-white leading-[22px] md:leading-[28px]">
                           +${opp.arkisBorrow.toFixed(2)}M
                         </p>
                       </div>
@@ -830,18 +1021,18 @@ export default function OpportunitiesTable({
                       </div>
 
                       {/* Capital Pool */}
-                      <div className="flex-1 bg-[rgba(34,36,48,0.5)] px-[16px] py-[12px] rounded-[8px] flex flex-col gap-[8px]">
-                        <div className="flex items-start justify-between">
-                          <p className="text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.42px] leading-[16px]">
+                      <div className="flex-1 bg-[rgba(34,36,48,0.5)] px-[12px] md:px-[16px] py-[10px] md:py-[12px] rounded-[6px] md:rounded-[8px] flex flex-col gap-[6px] md:gap-[8px]">
+                        <div className="flex items-start justify-between flex-col md:flex-row gap-[2px] md:gap-0">
+                          <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
                             Capital Pool
                           </p>
-                          <p className="text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.42px] leading-[16px]">
+                          <p className="text-[10px] md:text-[12px] font-medium text-[rgba(255,255,255,0.7)] tracking-[-0.3px] md:tracking-[-0.42px] leading-[14px] md:leading-[16px]">
                             {activeTab === 'carry-trade'
                               ? `${(opp as any).spotPercent}.00% spot / ${(opp as any).marginPercent}.00% margin`
                               : 'Split 50 / 50'}
                           </p>
                         </div>
-                        <p className="text-[20px] font-semibold text-white leading-[28px]">
+                        <p className="text-[16px] md:text-[20px] font-semibold text-white leading-[22px] md:leading-[28px]">
                           ${activeTab === 'carry-trade'
                             ? (opp as any).capitalPool.toFixed(2)
                             : (opp.wallet + opp.arkisBorrow).toFixed(2)}M
@@ -850,7 +1041,7 @@ export default function OpportunitiesTable({
                     </div>
 
                     {/* Position Cards */}
-                    <div className="flex gap-[16px]">
+                    <div className="flex flex-col md:flex-row gap-[12px] md:gap-[16px]">
                       {activeTab === 'carry-trade' ? (
                         <>
                           {/* Left Card - Asset (Carry Trade) */}
@@ -1037,33 +1228,37 @@ export default function OpportunitiesTable({
                   </div>
 
                   {/* Footer Row */}
-                  <div className="flex items-center justify-between px-[24px] py-[20px] rounded-[12px]">
+                  <div className="flex flex-col md:flex-row items-start md:items-center justify-between px-[16px] md:px-[24px] py-[16px] md:py-[20px] rounded-[12px] gap-[12px] md:gap-0">
                     {activeTab === 'carry-trade' ? (
                       <>
-                        <div className="flex items-center gap-[16px]">
+                        <div className="flex flex-col md:flex-row items-start md:items-center gap-[8px] md:gap-[16px] w-full md:w-auto">
                           <div className="flex items-center gap-[8px]">
-                            <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[20px]">Staking Yield</p>
+                            <p className="text-[12px] md:text-[14px] font-medium text-[#6a7282] tracking-[-0.36px] md:tracking-[-0.42px] leading-[16px] md:leading-[20px]">Staking Yield</p>
                             <p className="text-[14px] font-medium text-[#3ee0ad] tracking-[-0.42px] leading-[20px]">{(opp as any).stakingYield.toFixed(2)}%</p>
                           </div>
                           <div className="flex items-center gap-[8px]">
-                            <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[20px]">Funding Collected</p>
+                            <p className="text-[12px] md:text-[14px] font-medium text-[#6a7282] tracking-[-0.36px] md:tracking-[-0.42px] leading-[16px] md:leading-[20px]">Funding Collected</p>
                             <p className="text-[14px] font-medium text-[#3ee0ad] tracking-[-0.42px] leading-[20px]">{(opp as any).fundingCollected.toFixed(2)}%</p>
                           </div>
                           <div className="flex items-center gap-[8px]">
-                            <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[20px]">Borrow Cost</p>
-                            <p className="text-[14px] font-medium text-[#ff6060] tracking-[-0.42px] leading-[20px]">-${(opp as any).borrowCostYearly}K/yr</p>
+                            <p className="text-[12px] md:text-[14px] font-medium text-[#6a7282] tracking-[-0.36px] md:tracking-[-0.42px] leading-[16px] md:leading-[20px]">Borrow Cost</p>
+                            <p className="text-[14px] font-medium text-[#ff6060] tracking-[-0.42px] leading-[20px]">~${(opp as any).borrowCostYearly}K/yr</p>
                           </div>
                         </div>
+                        {/* Divider - Desktop only */}
+                        <div className="hidden md:block w-[1px] h-[20px] bg-[rgba(255,255,255,0.1)]"></div>
+                        {/* Divider - Mobile */}
+                        <div className="md:hidden w-full h-[1px] bg-[rgba(255,255,255,0.1)]"></div>
                         <div className="flex items-center gap-[8px]">
-                          <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[20px]">Leveraged APY</p>
-                          <p className="text-[14px] font-medium text-[#3ee0ad] tracking-[-0.42px] leading-[20px]">{(opp as any).leveredAPYFooter.toFixed(2)}%</p>
+                          <p className="text-[12px] md:text-[14px] font-medium text-[#6a7282] tracking-[-0.36px] md:tracking-[-0.42px] leading-[16px] md:leading-[20px]">Leveraged APY</p>
+                          <p className="text-[14px] md:text-[14px] font-semibold md:font-medium text-[#3ee0ad] tracking-[-0.42px] leading-[20px]">{(opp as any).leveredAPYFooter.toFixed(2)}%</p>
                         </div>
                       </>
                     ) : (
                       <>
-                        <div className="flex items-center gap-[16px]">
+                        <div className="flex flex-col md:flex-row items-start md:items-center gap-[8px] md:gap-[16px] w-full md:w-auto">
                           <div className="flex items-center gap-[8px]">
-                            <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[20px]">
+                            <p className="text-[12px] md:text-[14px] font-medium text-[#6a7282] tracking-[-0.36px] md:tracking-[-0.42px] leading-[16px] md:leading-[20px]">
                               Net Funding Spread
                             </p>
                             <p className="text-[14px] font-medium text-white tracking-[-0.42px] leading-[20px]">
@@ -1071,19 +1266,23 @@ export default function OpportunitiesTable({
                             </p>
                           </div>
                           <div className="flex items-center gap-[8px]">
-                            <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[20px]">
+                            <p className="text-[12px] md:text-[14px] font-medium text-[#6a7282] tracking-[-0.36px] md:tracking-[-0.42px] leading-[16px] md:leading-[20px]">
                               Borrow Cost
                             </p>
                             <p className="text-[14px] font-medium text-[#ff6060] tracking-[-0.42px] leading-[20px]">
-                              -${opp.borrowCostYearly}K/yr
+                              ~${opp.borrowCostYearly}K/yr
                             </p>
                           </div>
                         </div>
+                        {/* Divider - Desktop only */}
+                        <div className="hidden md:block w-[1px] h-[20px] bg-[rgba(255,255,255,0.1)]"></div>
+                        {/* Divider - Mobile */}
+                        <div className="md:hidden w-full h-[1px] bg-[rgba(255,255,255,0.1)]"></div>
                         <div className="flex items-center gap-[8px]">
-                          <p className="text-[14px] font-medium text-[#6a7282] tracking-[-0.42px] leading-[20px]">
+                          <p className="text-[12px] md:text-[14px] font-medium text-[#6a7282] tracking-[-0.36px] md:tracking-[-0.42px] leading-[16px] md:leading-[20px]">
                             Leveraged APY
                           </p>
-                          <p className="text-[14px] font-medium text-[#3ee0ad] tracking-[-0.42px] leading-[20px]">
+                          <p className="text-[14px] md:text-[14px] font-semibold md:font-medium text-[#3ee0ad] tracking-[-0.42px] leading-[20px]">
                             {opp.leveredAPY.toFixed(2)}%
                           </p>
                         </div>
