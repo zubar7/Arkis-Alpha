@@ -328,9 +328,9 @@ export default function FilterSection({
         </div>
 
         {/* Sliders */}
-        <div className="flex gap-[24px]">
+        <div className="flex flex-col lg:flex-row gap-[24px]">
           {/* Position Sizing Section */}
-          <div className="flex-1 flex flex-col gap-[24px]">
+          <div className="w-full lg:flex-1 flex flex-col gap-[24px]">
             <h3 className="text-[16px] font-semibold text-white tracking-[-0.42px] leading-[24px]">Position Sizing</h3>
             <div className="flex flex-col gap-[24px]">
               {/* Futures Leverage */}
@@ -521,7 +521,7 @@ export default function FilterSection({
           </div>
 
           {/* Trade Parameters Section */}
-          <div className="flex-1 flex flex-col gap-[24px]">
+          <div className="w-full lg:flex-1 flex flex-col gap-[24px]">
             <h3 className="text-[16px] font-semibold text-white tracking-[-0.42px] leading-[24px]">Trade Parameters</h3>
             <div className="flex flex-col gap-[24px]">
               {/* Borrow Cost (APY) */}
